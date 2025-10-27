@@ -5775,8 +5775,8 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         // Valor de crédito alto (7 a 16 milhões)
                         valorCredito =
                             Math.floor(
-                                Math.random() * (16000000 - 7000000 + 1),
-                            ) + 7000000;
+                                Math.random() * (28000000 - 16000000 + 1),
+                            ) + 18000000;
 
                         // Quase todas as cotas vendidas (95-99%)
                         cotasVendidas = Math.floor(
@@ -5907,7 +5907,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
 
                                 // Definir quantos lances terá neste mês (2 a 7)
                                 const lancesNoMes =
-                                    Math.floor(Math.random() * 6) + 2; // 2 a 7 lances
+                                    Math.floor(Math.random() * 24) + 15; // 2 a 7 lances
 
                                 // Escolher cotas aleatórias para os lances deste mês
                                 const cotasDisponiveis = [];
@@ -12847,45 +12847,47 @@ COTAS (${consorciado.cotas.length}):
 
                 // Função para tentar login
                 async function custom_login_try() {
-    custom_login_hideError();
+                    custom_login_hideError();
 
-    const username = document.getElementById("custom_login_username").value.trim().toLowerCase();
-    const password = document.getElementById("custom_login_password").value;
+                    const username = document
+                        .getElementById("custom_login_username")
+                        .value.trim();
+                    const password = document.getElementById(
+                        "custom_login_password",
+                    ).value;
 
-    // Lista de usuários e senhas válidos
-    const validUsers = [
-        { user: "joao", pass: "carvalho" },
-        { user: "raphael", pass: "chefe" },
-        { user: "lucas", pass: "magro" },
-        { user: "julia", pass: "tigrinho" }
-    ];
+                    // VALIDAÇÃO SIMPLES E DIRETA
+                    if (username === "joao" && password === "12345") {
+                        console.log(
+                            "[SUCCESS] Login válido com validação direta!",
+                        );
 
-    // Verifica se a combinação de usuário e senha está na lista
-    const isValid = validUsers.some(
-        (cred) => cred.user === username && cred.pass === password
-    );
+                        // Mostrar animação de sucesso
+                        custom_login_showSuccess();
 
-    if (isValid) {
-        console.log(`[SUCCESS] Login válido para o usuário: ${username}`);
+                        // Aguardar animação antes de esconder
+                        setTimeout(() => {
+                            custom_login_unlockAccess();
+                            // Parar todos os timers de verificação
+                            clearInterval(window.forceLoginInterval);
+                        }, 2000);
 
-        // Mostrar animação de sucesso
-        custom_login_showSuccess();
+                        console.log(
+                            "[CUSTOM_LOGIN] Login bem-sucedido para:",
+                            username,
+                        );
 
-        // Aguardar animação antes de esconder
-        setTimeout(() => {
-            custom_login_unlockAccess();
-            clearInterval(window.forceLoginInterval);
-        }, 2000);
+                        // Limpar formulário
+                        document.getElementById("custom_login_username").value =
+                            "";
+                        document.getElementById("custom_login_password").value =
+                            "";
 
-        // Limpar formulário
-        document.getElementById("custom_login_username").value = "";
-        document.getElementById("custom_login_password").value = "";
-
-        return true;
-    } else {
-        custom_login_showError("Usuário ou senha inválidos.");
-        return false;
-    }
+                        return true;
+                    } else {
+                        custom_login_showError("Credenciais inválidas");
+                        return false;
+                    }
                 }
 
                 // Função para logout
