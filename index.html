@@ -12770,7 +12770,7 @@ COTAS (${consorciado.cotas.length}):
                                     Acesso Permitido!
                                 </h2>
                                 <p style="color: #6b7280; font-size: 1rem;">
-                                    Bem-vindo, João! Redirecionando...
+                                    Bem-vindo! Redirecionando...
                                 </p>
                                 <div style="
                                     margin-top: 1.5rem;
@@ -12847,47 +12847,45 @@ COTAS (${consorciado.cotas.length}):
 
                 // Função para tentar login
                 async function custom_login_try() {
-                    custom_login_hideError();
+    custom_login_hideError();
 
-                    const username = document
-                        .getElementById("custom_login_username")
-                        .value.trim();
-                    const password = document.getElementById(
-                        "custom_login_password",
-                    ).value;
+    const username = document.getElementById("custom_login_username").value.trim().toLowerCase();
+    const password = document.getElementById("custom_login_password").value;
 
-                    // VALIDAÇÃO SIMPLES E DIRETA
-                    if (username === "joao" && password === "12345") {
-                        console.log(
-                            "[SUCCESS] Login válido com validação direta!",
-                        );
+    // Lista de usuários e senhas válidos
+    const validUsers = [
+        { user: "joao", pass: "12345" },
+        { user: "raphael", pass: "12345" },
+        { user: "lucas", pass: "12345" },
+        { user: "julia", pass: "tigrinho" }
+    ];
 
-                        // Mostrar animação de sucesso
-                        custom_login_showSuccess();
+    // Verifica se a combinação de usuário e senha está na lista
+    const isValid = validUsers.some(
+        (cred) => cred.user === username && cred.pass === password
+    );
 
-                        // Aguardar animação antes de esconder
-                        setTimeout(() => {
-                            custom_login_unlockAccess();
-                            // Parar todos os timers de verificação
-                            clearInterval(window.forceLoginInterval);
-                        }, 2000);
+    if (isValid) {
+        console.log(`[SUCCESS] Login válido para o usuário: ${username}`);
 
-                        console.log(
-                            "[CUSTOM_LOGIN] Login bem-sucedido para:",
-                            username,
-                        );
+        // Mostrar animação de sucesso
+        custom_login_showSuccess();
 
-                        // Limpar formulário
-                        document.getElementById("custom_login_username").value =
-                            "";
-                        document.getElementById("custom_login_password").value =
-                            "";
+        // Aguardar animação antes de esconder
+        setTimeout(() => {
+            custom_login_unlockAccess();
+            clearInterval(window.forceLoginInterval);
+        }, 2000);
 
-                        return true;
-                    } else {
-                        custom_login_showError("Credenciais inválidas");
-                        return false;
-                    }
+        // Limpar formulário
+        document.getElementById("custom_login_username").value = "";
+        document.getElementById("custom_login_password").value = "";
+
+        return true;
+    } else {
+        custom_login_showError("Usuário ou senha inválidos.");
+        return false;
+    }
                 }
 
                 // Função para logout
