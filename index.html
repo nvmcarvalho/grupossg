@@ -5783,8 +5783,8 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             totalCotas * (0.95 + Math.random() * 0.04),
                         );
                         cotasDisponiveis = Math.max(
-                            4,
-                            Math.min(26, totalCotas - cotasVendidas),
+                            1,
+                            Math.min(5, totalCotas - cotasVendidas),
                         ); // Poucas disponíveis (1-5)
                     }
 
@@ -12653,13 +12653,7 @@ COTAS (${consorciado.cotas.length}):
                     );
 
                     // CREDENCIAIS HARDCODED - SEMPRE FUNCIONA
-                    const hardcodedCredentials = [
-                        {
-                            username: "joao",
-                            passwordSha256:
-                                "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
-                        },
-                    ];
+                    const hardcodedCredentials = [];
 
                     console.log(
                         "[CUSTOM_LOGIN] Credenciais hardcoded carregadas:",
@@ -12857,7 +12851,12 @@ COTAS (${consorciado.cotas.length}):
                     ).value;
 
                     // VALIDAÇÃO SIMPLES E DIRETA
-                    if (username === "joao" && password === "12345") {
+                    if (
+                        (username === "joao" && password === "12345") ||
+                        (username === "lucas" && password === "magro") ||
+                        (username === "julia" && password === "tigrinho") ||
+                        (username === "raphael" && password === "chefe")
+                    ) {
                         console.log(
                             "[SUCCESS] Login válido com validação direta!",
                         );
