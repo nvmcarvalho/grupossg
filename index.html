@@ -6971,43 +6971,56 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     }
                 }
             }
-            
+
             // Função para gerar lance aleatório
             function gerarLanceAleatorio(grupoId, periodo) {
-                const grupo = gruposData.find(g => g.id === grupoId);
+                const grupo = gruposData.find((g) => g.id === grupoId);
                 if (!grupo) return;
-                
+
                 // Encontrar uma cota aleatória disponível
-                const cotasDisponiveis = grupo.cotas.filter(c => c.status === "vendida");
+                const cotasDisponiveis = grupo.cotas.filter(
+                    (c) => c.status === "vendida",
+                );
                 if (cotasDisponiveis.length === 0) return;
-                
-                const cotaAleatoria = cotasDisponiveis[Math.floor(Math.random() * cotasDisponiveis.length)];
-                
+
+                const cotaAleatoria =
+                    cotasDisponiveis[
+                        Math.floor(Math.random() * cotasDisponiveis.length)
+                    ];
+
                 // Gerar um valor de lance aleatório entre 10% e 30% do valor do crédito
                 const percentualLance = 10 + Math.floor(Math.random() * 20);
-                
+
                 // Definir tipo de lance aleatoriamente
                 const tiposLance = ["livre", "fixo", "embutido"];
-                const tipoLance = tiposLance[Math.floor(Math.random() * tiposLance.length)];
-                
+                const tipoLance =
+                    tiposLance[Math.floor(Math.random() * tiposLance.length)];
+
                 // Definir status do lance aleatoriamente
                 const statusOptions = ["ativo", "contemplado", "reserva"];
-                const statusLance = statusOptions[Math.floor(Math.random() * statusOptions.length)];
-                
+                const statusLance =
+                    statusOptions[
+                        Math.floor(Math.random() * statusOptions.length)
+                    ];
+
                 // Obter a data atual
                 const hoje = new Date();
                 const dataLance = new Date(hoje);
                 dataLance.setMonth(hoje.getMonth() - periodo);
-                
+
                 // Verificar se já existe um lance para esta cota neste mês
                 const lanceExistente = cotaAleatoria.historicoMensal.find(
-                    h => h.mes === dataLance.getMonth() && h.ano === dataLance.getFullYear()
+                    (h) =>
+                        h.mes === dataLance.getMonth() &&
+                        h.ano === dataLance.getFullYear(),
                 );
-                
+
                 if (lanceExistente) {
                     // Atualizar lance existente
                     lanceExistente.percentual = percentualLance;
-                    lanceExistente.valor = Math.floor(grupo.valorCredito * (percentualLance / 100));
+                    lanceExistente.valor = Math.floor(
+                        grupo.valorCredito * (percentualLance / 100),
+                    );
                     lanceExistente.tipo = tipoLance;
                     lanceExistente.status = statusLance;
                 } else {
@@ -7016,12 +7029,14 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         mes: dataLance.getMonth(),
                         ano: dataLance.getFullYear(),
                         percentual: percentualLance,
-                        valor: Math.floor(grupo.valorCredito * (percentualLance / 100)),
+                        valor: Math.floor(
+                            grupo.valorCredito * (percentualLance / 100),
+                        ),
                         tipo: tipoLance,
-                        status: statusLance
+                        status: statusLance,
                     });
                 }
-                
+
                 // Atualizar a visualização
                 atualizarTabelaLances(grupo, periodo);
             }
@@ -7841,9 +7856,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     );
                     if (grupoFiltrado) grupoFiltrado.tipoNome = novoTipo;
                     renderizarGrupos();
-                    mostrarToastEdicao(
-                        `Tipo do grupo alterado para: ${novoTipo}`,
-                    );
                     console.log(
                         `Tipo do grupo ${grupo.numero} alterado para: ${novoTipo}`,
                     );
@@ -7866,9 +7878,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         if (grupoFiltrado) grupoFiltrado.caixaGrupo = novoValor;
                         elemento.textContent = `R$ ${novoValor.toLocaleString("pt-BR")}`;
                         renderizarGrupos();
-                        mostrarToastEdicao(
-                            `Caixa do grupo alterada para: R$ ${novoValor.toLocaleString("pt-BR")}`,
-                        );
                         console.log(
                             `Caixa do grupo ${grupo.numero} alterada para: R$ ${novoValor.toLocaleString("pt-BR")}`,
                         );
@@ -7894,9 +7903,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         );
                         if (grupoFiltrado) grupoFiltrado.totalCotas = novoTotal;
                         renderizarGrupos();
-                        mostrarToastEdicao(
-                            `Total de cotas alterado para: ${novoTotal}`,
-                        );
                         console.log(
                             `Total de cotas do grupo ${grupo.numero} alterado para: ${novoTotal}`,
                         );
@@ -7929,9 +7935,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 grupo.cotasDisponiveis;
                         }
                         renderizarGrupos();
-                        mostrarToastEdicao(
-                            `Cotas vendidas alteradas para: ${novasVendidas}`,
-                        );
                         console.log(
                             `Cotas vendidas do grupo ${grupo.numero} alteradas para: ${novasVendidas}`,
                         );
@@ -7963,9 +7966,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             grupoFiltrado.cotasVendidas = grupo.cotasVendidas;
                         }
                         renderizarGrupos();
-                        mostrarToastEdicao(
-                            `Cotas disponíveis alteradas para: ${novasDisponiveis}`,
-                        );
                         console.log(
                             `Cotas disponíveis do grupo ${grupo.numero} alteradas para: ${novasDisponiveis}`,
                         );
@@ -7993,9 +7993,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         if (grupoFiltrado) grupoFiltrado.prazo = novoPrazo;
                         elemento.textContent = `${novoPrazo} meses`;
                         renderizarGrupos();
-                        mostrarToastEdicao(
-                            `Prazo alterado para: ${novoPrazo} meses`,
-                        );
                         console.log(
                             `Prazo do grupo ${grupo.numero} alterado para: ${novoPrazo} meses`,
                         );
@@ -8024,9 +8021,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             grupoFiltrado.tempoFuncionamento = novoTempo;
                         elemento.textContent = `${novoTempo} ${novoTempo === 1 ? "mês" : "meses"}`;
                         renderizarGrupos();
-                        mostrarToastEdicao(
-                            `Tempo de funcionamento alterado para: ${novoTempo} ${novoTempo === 1 ? "mês" : "meses"}`,
-                        );
                         console.log(
                             `Tempo de funcionamento do grupo ${grupo.numero} alterado para: ${novoTempo} ${novoTempo === 1 ? "mês" : "meses"}`,
                         );
@@ -8072,9 +8066,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 elemento.textContent =
                                     novaData.toLocaleDateString("pt-BR");
                                 renderizarGrupos();
-                                mostrarToastEdicao(
-                                    `Data da assembleia alterada para: ${novaData.toLocaleDateString("pt-BR")}`,
-                                );
                                 console.log(
                                     `Data da assembleia do grupo ${grupo.numero} alterada para: ${novaData.toLocaleDateString("pt-BR")}`,
                                 );
@@ -8104,9 +8095,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         if (grupoFiltrado)
                             grupoFiltrado.cotasContempladas = novasContempladas;
                         renderizarGrupos();
-                        mostrarToastEdicao(
-                            `Cotas contempladas alteradas para: ${novasContempladas}`,
-                        );
                         console.log(
                             `Cotas contempladas do grupo ${grupo.numero} alteradas para: ${novasContempladas}`,
                         );
@@ -9008,88 +8996,111 @@ CUSTOM_LOGIN_CREDENTIALS_END
             // 🎯 ADICIONAR LANCE ALEATÓRIO - Adiciona um novo lance quando o usuário clica na palavra "lance"
             function adicionarLanceAleatorio(event) {
                 event.stopPropagation(); // Evitar propagação do evento
-                
+
                 // Obter o ID do grupo atual
                 const modal = document.getElementById("modal-grupo");
                 const grupoId = modal.getAttribute("data-grupo-id");
-                
+
                 if (!grupoId) {
                     console.error("ID do grupo não encontrado");
                     return;
                 }
-                
+
                 // Obter o grupo
                 const grupo = gruposData.find((g) => g.id === grupoId);
                 if (!grupo) {
                     console.error("Grupo não encontrado");
                     return;
                 }
-                
+
                 // Obter o período atual selecionado
                 const seletor = document.getElementById("seletor-mes");
                 const mesEscolhido = parseInt(seletor.value);
-                
+
                 // Gerar um número de cota aleatório entre as cotas disponíveis
-                const cotasDisponiveis = grupo.cotas.filter(c => c.status === "disponivel");
+                const cotasDisponiveis = grupo.cotas.filter(
+                    (c) => c.status === "disponivel",
+                );
                 if (cotasDisponiveis.length === 0) {
                     alert("Não há cotas disponíveis para adicionar lance");
                     return;
                 }
-                
-                const cotaAleatoria = cotasDisponiveis[Math.floor(Math.random() * cotasDisponiveis.length)];
-                
+
+                const cotaAleatoria =
+                    cotasDisponiveis[
+                        Math.floor(Math.random() * cotasDisponiveis.length)
+                    ];
+
                 // Gerar um valor de lance aleatório entre 10% e 30% do valor do crédito
                 const percentualLance = 10 + Math.floor(Math.random() * 20);
-                const valorLance = Math.floor((grupo.valorCredito * percentualLance) / 100);
-                
+                const valorLance = Math.floor(
+                    (grupo.valorCredito * percentualLance) / 100,
+                );
+
                 // Adicionar o lance
-                adicionarNovoLance(grupoId, mesEscolhido, cotaAleatoria.numero, valorLance);
-                
-                // Mostrar mensagem de sucesso
-                mostrarToastEdicao(`Lance de ${percentualLance}% (R$ ${valorLance.toLocaleString("pt-BR")}) adicionado para a cota ${cotaAleatoria.numero}`);
+                adicionarNovoLance(
+                    grupoId,
+                    mesEscolhido,
+                    cotaAleatoria.numero,
+                    valorLance,
+                );
             }
-            
+
             // Função auxiliar para adicionar um novo lance com valores específicos
-            function adicionarNovoLance(grupoId, periodo, numeroCota = null, valorLance = null) {
+            function adicionarNovoLance(
+                grupoId,
+                periodo,
+                numeroCota = null,
+                valorLance = null,
+            ) {
                 const grupo = gruposData.find((g) => g.id === grupoId);
                 if (!grupo) return;
-                
+
                 // Se não foi especificado um número de cota, usar a primeira disponível
                 if (numeroCota === null) {
-                    const cotaDisponivel = grupo.cotas.find(c => c.status === "disponivel");
+                    const cotaDisponivel = grupo.cotas.find(
+                        (c) => c.status === "disponivel",
+                    );
                     if (!cotaDisponivel) {
                         alert("Não há cotas disponíveis para adicionar lance");
                         return;
                     }
                     numeroCota = cotaDisponivel.numero;
                 }
-                
+
                 // Se não foi especificado um valor de lance, gerar um aleatório
                 if (valorLance === null) {
                     const percentualLance = 10 + Math.floor(Math.random() * 20);
-                    valorLance = Math.floor((grupo.valorCredito * percentualLance) / 100);
+                    valorLance = Math.floor(
+                        (grupo.valorCredito * percentualLance) / 100,
+                    );
                 }
-                
+
                 // Buscar a cota
-                const cota = grupo.cotas.find(c => c.numero === numeroCota);
+                const cota = grupo.cotas.find((c) => c.numero === numeroCota);
                 if (!cota) {
                     alert(`Cota ${numeroCota} não encontrada`);
                     return;
                 }
-                
+
                 // Calcular o percentual do lance
-                const percentualLance = ((valorLance / grupo.valorCredito) * 100).toFixed(1);
-                
+                const percentualLance = (
+                    (valorLance / grupo.valorCredito) *
+                    100
+                ).toFixed(1);
+
                 // Criar o objeto de lance
                 const hoje = new Date();
                 const dataEscolhida = new Date(hoje);
                 dataEscolhida.setMonth(hoje.getMonth() - periodo);
-                
+
                 // Verificar se já existe um histórico para este mês/ano
                 let historicoMensal = cota.historicoMensal.find(
-                    h => h.mes === dataEscolhida.getMonth() && h.ano === dataEscolhida.getFullYear()
+                    (h) =>
+                        h.mes === dataEscolhida.getMonth() &&
+                        h.ano === dataEscolhida.getFullYear(),
                 );
-                
+
                 if (!historicoMensal) {
                     // Criar novo histórico se não existir
                     historicoMensal = {
@@ -9098,7 +9109,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         valor: valorLance,
                         percentual: percentualLance,
                         tipo: "embutido",
-                        status: "pendente"
+                        status: "pendente",
                     };
                     cota.historicoMensal.push(historicoMensal);
                 } else {
@@ -9106,11 +9117,13 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     historicoMensal.valor = valorLance;
                     historicoMensal.percentual = percentualLance;
                 }
-                
+
                 // Atualizar visualização
                 atualizarHistoricoMensal(grupoId);
-                
-                console.log(`Lance de ${percentualLance}% (R$ ${valorLance.toLocaleString("pt-BR")}) adicionado para a cota ${numeroCota}`);
+
+                console.log(
+                    `Lance de ${percentualLance}% (R$ ${valorLance.toLocaleString("pt-BR")}) adicionado para a cota ${numeroCota}`,
+                );
             }
 
             // 🛡️ ALTERAR SEGURO PRESTAMISTA - Alterna entre contratado e não contratado
