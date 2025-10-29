@@ -82,6 +82,17 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 --cor-gradient-end: #d84315; /* 🌈 Gradiente laranja final */
             }
 
+            /* 🏢 TEMA EVOY - Edite aqui as cores específicas da Evoy */
+            .tema-evoy {
+                --cor-primaria: #10b981; /* 🟢 Verde principal da Evoy */
+                --cor-primaria-light: #34d399; /* 🟢 Verde claro da Evoy */
+                --cor-primaria-dark: #059669; /* 🟢 Verde escuro da Evoy */
+                --cor-secundaria: #f97316; /* 🟠 Laranja da Evoy */
+                --cor-accent: #fbbf24; /* 🟡 Amarelo para status */
+                --cor-gradient-start: #10b981; /* 🌈 Gradiente verde início */
+                --cor-gradient-end: #059669; /* 🌈 Gradiente verde final */
+            }
+
             /* 🎨 CLASSES DE CORES DINÂMICAS - Aplicam as cores dos temas automaticamente */
             /* 🎨 Fundos (backgrounds) */
             .bg-primario {
@@ -504,6 +515,45 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     );
             }
 
+            .tema-evoy .hero-gradient::before {
+                background-image:
+                    linear-gradient(
+                        45deg,
+                        rgba(249, 115, 22, 0.3) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        -45deg,
+                        rgba(249, 115, 22, 0.3) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        0deg,
+                        rgba(255, 255, 255, 0.15) 1px,
+                        transparent 1px
+                    ),
+                    radial-gradient(
+                        circle at 20% 80%,
+                        rgba(249, 115, 22, 0.25) 2px,
+                        transparent 5px
+                    ),
+                    radial-gradient(
+                        circle at 80% 20%,
+                        rgba(249, 115, 22, 0.25) 2px,
+                        transparent 5px
+                    ),
+                    radial-gradient(
+                        circle at 40% 40%,
+                        rgba(255, 255, 255, 0.12) 1px,
+                        transparent 3px
+                    ),
+                    radial-gradient(
+                        circle at 60% 70%,
+                        rgba(249, 115, 22, 0.2) 1px,
+                        transparent 3px
+                    );
+            }
+
             /* 🎯 GARANTIR QUE O CONTEÚDO FIQUE ACIMA DOS DETALHES */
             .hero-gradient > * {
                 position: relative;
@@ -772,19 +822,19 @@ CUSTOM_LOGIN_CREDENTIALS_END
             .tema-zema .tema-zema-btn {
                 background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
                 color: #5b2c6f;
-                border: 2px solid #ffd700;
+                border: none;
             }
 
             .tema-zema .tema-zema-btn:hover {
                 background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
                 transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+                box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
             }
 
             .tema-zema .status-ativo {
                 background-color: #fffbeb;
                 color: #92400e;
-                border: 1px solid #ffd700;
+                border-color: #ffd700;
             }
 
             /* Detalhes amarelos específicos para Zema */
@@ -807,6 +857,31 @@ CUSTOM_LOGIN_CREDENTIALS_END
             /* Apenas "Cotas Disponíveis" em amarelo no tema Zema */
             .tema-zema .cotas-disponiveis {
                 color: #ffd700 !important;
+            }
+
+            /* Estilos especiais para Evoy */
+            .tema-evoy .nav-link[href="#grupos"],
+            .tema-evoy .nav-link[href="#lances"] {
+                color: #f97316 !important;
+                font-weight: 600;
+            }
+
+            .tema-evoy .nav-link[href="#grupos"]:hover,
+            .tema-evoy .nav-link[href="#lances"]:hover {
+                color: #fb923c !important;
+            }
+
+            .tema-evoy .nav-link[href="#grupos"]::after,
+            .tema-evoy .nav-link[href="#lances"]::after {
+                background-color: #f97316 !important;
+            }
+
+            .tema-evoy .cotas-disponiveis {
+                color: #f97316 !important;
+            }
+
+            .tema-evoy .tema-zema-destaque {
+                color: #f97316 !important;
             }
 
             /* ESTILOS PARA CONSORCIADOS */
@@ -1004,18 +1079,18 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         class="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
                         onclick="trocarAdministradoraSequencial()"
                     >
-                        <!-- 🖼️ LOGO DA EMPRESA (inicialmente oculta) -->
+                        <!-- 🖼️ LOGO DA EMPRESA -->
                         <img
                             id="logo-imagem"
-                            src=""
-                            alt=""
-                            class="h-12 sm:h-16 mr-3 hidden max-w-none"
+                            src="logos/zema.png"
+                            alt="Logo da Administradora"
+                            class="h-12 sm:h-16 mr-3 max-w-none"
                             style="width: auto"
                         />
-                        <!-- 📝 NOME DA EMPRESA - Edite o nome padrão aqui -->
+                        <!-- 📝 NOME DA EMPRESA (oculto quando logo está visível) -->
                         <h1
                             id="logo-administradora"
-                            class="text-xl sm:text-2xl font-bold administradora-text"
+                            class="text-xl sm:text-2xl font-bold administradora-text hidden"
                         >
                             Zema Financeira
                         </h1>
@@ -1076,6 +1151,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             <option value="zema">Zema Financeira</option>
                             <option value="ancora">Âncora Consórcios</option>
                             <option value="kasinski">KSK Consórcio</option>
+                            <option value="evoy">Evoy</option>
                         </select>
                     </div>
 
@@ -7052,6 +7128,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     "tema-zema",
                     "tema-ancora",
                     "tema-kasinski",
+                    "tema-evoy",
                 );
                 document.body.classList.add(`tema-${administradora}`);
 
@@ -7060,6 +7137,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     // 🟣 ZEMA FINANCEIRA - Configurações da Zema
                     zema: {
                         nome: "Zema Financeira",
+                        logo: "logos/zema.png",
                         telefone: "0800 095 6702",
                         telefoneExtra: "Opção 01 (Consórcio)",
                         email: "0800 095 6702 (2ª via boletos)",
@@ -7070,6 +7148,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     // 🔵 ÂNCORA CONSÓRCIOS - Configurações da Âncora
                     ancora: {
                         nome: "Âncora Consórcios",
+                        logo: "logos/ancora.jpg",
                         telefone: "0800 777 2626",
                         telefoneExtra: "Central de Relacionamento",
                         email: "contato@ancoraconsorcios.com.br",
@@ -7080,12 +7159,24 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     // 🔴 KSK CONSÓRCIO - Configurações da KSK
                     kasinski: {
                         nome: "KSK Consórcio",
+                        logo: "logos/logo.png",
                         telefone: "0800 643 4000",
                         telefoneExtra: "Atendimento ao Cliente",
                         email: "sac@ksk.com.br",
                         emailExtra: "Ouvidoria disponível",
                         endereco: "Segunda a sexta das 07h às 19h",
                         enderecoExtra: "Sábado das 08h às 14h",
+                    },
+                    // 🟢 EVOY - Configurações da Evoy
+                    evoy: {
+                        nome: "Evoy",
+                        logo: "logos/evoy.png",
+                        telefone: "0800 123 4567",
+                        telefoneExtra: "Central de Atendimento",
+                        email: "contato@evoy.com.br",
+                        emailExtra: "Suporte disponível",
+                        endereco: "Segunda a sexta das 08h às 18h",
+                        enderecoExtra: "Sábado das 09h às 13h",
                     },
                 };
 
@@ -7094,8 +7185,17 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 // 🌐 ALTERAR TÍTULO DA ABA DO NAVEGADOR - Muda o nome que aparece na aba
                 document.title = `${config.nome} - Consulta de Cotas e Lances`;
 
-                document.getElementById("logo-administradora").textContent =
-                    config.nome;
+                // 🖼️ ALTERAR LOGO DA EMPRESA
+                const logoImg = document.getElementById("logo-imagem");
+                const logoTexto = document.getElementById(
+                    "logo-administradora",
+                );
+
+                logoImg.src = config.logo;
+                logoImg.alt = `Logo ${config.nome}`;
+                logoImg.classList.remove("hidden");
+                logoTexto.classList.add("hidden");
+
                 document.getElementById("contato-telefone").textContent =
                     config.telefone;
                 document.getElementById("contato-telefone-extra").textContent =
@@ -7125,7 +7225,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
             // Trocar administradora sequencial
             function trocarAdministradoraSequencial() {
                 const select = document.getElementById("administradora-select");
-                const opcoes = ["zema", "ancora", "kasinski"];
+                const opcoes = ["zema", "ancora", "kasinski", "evoy"];
                 const atual = select.value;
                 const proximoIndex =
                     (opcoes.indexOf(atual) + 1) % opcoes.length;
@@ -12928,97 +13028,4 @@ COTAS (${consorciado.cotas.length}):
                     // Verificar se há credenciais
                     if (custom_login_credentials.length === 0) {
                         console.warn(
-                            "[CUSTOM_LOGIN] Nenhuma credencial configurada. Login desabilitado para desenvolvimento.",
-                        );
-                        custom_login_hide();
-                        custom_login_isInitialized = true;
-                        return;
-                    }
-
-                    // Sempre mostrar login (sem verificação de token salvo)
-                    console.log(
-                        "[CUSTOM_LOGIN] Sempre exibindo tela de login.",
-                    );
-                    custom_login_show();
-
-                    // Adicionar listener para tecla Enter
-                    document.addEventListener("keydown", function (event) {
-                        if (event.key === "Enter") {
-                            const overlay = document.getElementById(
-                                "custom_login_overlay",
-                            );
-                            if (overlay && overlay.style.display !== "none") {
-                                custom_login_try();
-                            }
-                        }
-                    });
-
-                    // Adicionar botão de teste no console
-                    window.showLogin = function () {
-                        custom_login_show();
-                    };
-
-                    window.testLogin = function () {
-                        console.log("=== CREDENCIAIS DISPONÍVEIS ===");
-                        custom_login_credentials.forEach((cred, index) => {
-                            console.log(`Credencial ${index}:`);
-                            console.log(`  Username: "${cred.username}"`);
-                            console.log(`  Password: "12345"`);
-                            console.log(`  Hash: "${cred.passwordSha256}"`);
-                        });
-                        console.log("=== TESTE MANUAL ===");
-                        console.log("Digite exatamente: joao");
-                        console.log("Digite exatamente: 12345");
-                    };
-
-                    window.testHash = async function (senha) {
-                        const hash = await custom_login_generateSha256(senha);
-                        console.log(`Hash de "${senha}":`, hash);
-                        console.log(
-                            "Hash esperado:",
-                            custom_login_credentials[0]?.passwordSha256,
-                        );
-                        console.log(
-                            "Match:",
-                            hash ===
-                                custom_login_credentials[0]?.passwordSha256,
-                        );
-                        return hash;
-                    };
-
-                    custom_login_isInitialized = true;
-                    console.log(
-                        "[CUSTOM_LOGIN] Módulo inicializado com sucesso. Digite testLogin() no console para ver as credenciais.",
-                    );
-                }
-
-                // Expor funções globalmente
-                window.custom_login_init = custom_login_init;
-                window.custom_login_show = custom_login_show;
-                window.custom_login_try = custom_login_try;
-                window.custom_login_logout = custom_login_logout;
-                window.custom_login_isAuthenticated =
-                    custom_login_isAuthenticated;
-
-                // EXECUTAR MÚLTIPLAS VEZES PARA GARANTIR
-                console.log("[CUSTOM_LOGIN] Tentando inicializar...");
-
-                // 1. Inicializar imediatamente
-                try {
-                    custom_login_init();
-                    console.log(
-                        "[CUSTOM_LOGIN] Inicialização imediata executada",
-                    );
-                } catch (e) {
-                    console.error(
-                        "[CUSTOM_LOGIN] Erro na inicialização imediata:",
-                        e,
-                    );
-                }
-
-                // Sempre mostrar login ao carregar a página
-                custom_login_show();
-            })();
-        </script>
-    </body>
-</html>
+                            "[CUSTOM_LOGIN] Nenhuma credencial configu
