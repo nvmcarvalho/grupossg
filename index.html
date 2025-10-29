@@ -5704,15 +5704,18 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     ];
                 }
 
-                // Definir posições dos grupos especiais (7 grupos específicos)
+                // Definir posições dos grupos especiais (10 grupos específicos)
                 const gruposEspeciais = [
-                    { pagina: 3, posicao: 4, indice: (3 - 1) * 12 + (4 - 1) }, // índice 27
-                    { pagina: 10, posicao: 6, indice: (10 - 1) * 12 + (6 - 1) }, // índice 113
-                    { pagina: 14, posicao: 5, indice: (14 - 1) * 12 + (5 - 1) }, // índice 160
-                    { pagina: 32, posicao: 2, indice: (32 - 1) * 12 + (2 - 1) }, // índice 373
-                    { pagina: 55, posicao: 1, indice: (55 - 1) * 12 + (1 - 1) }, // índice 648
-                    { pagina: 64, posicao: 1, indice: (64 - 1) * 12 + (1 - 1) }, // índice 756
-                    { pagina: 87, posicao: 5, indice: (87 - 1) * 12 + (5 - 1) }, // índice 1040
+                    { pagina: 3, posicao: 4, indice: (3 - 1) * 12 + (4 - 1), tipo: 'imovel' }, // índice 27
+                    { pagina: 10, posicao: 6, indice: (10 - 1) * 12 + (6 - 1), tipo: 'imovel' }, // índice 113
+                    { pagina: 14, posicao: 5, indice: (14 - 1) * 12 + (5 - 1), tipo: 'imovel' }, // índice 160
+                    { pagina: 32, posicao: 2, indice: (32 - 1) * 12 + (2 - 1), tipo: 'imovel' }, // índice 373
+                    { pagina: 55, posicao: 1, indice: (55 - 1) * 12 + (1 - 1), tipo: 'imovel' }, // índice 648
+                    { pagina: 60, posicao: 1, indice: (60 - 1) * 12 + (1 - 1), tipo: 'automovel', numero: 617 }, // índice 708
+                    { pagina: 60, posicao: 2, indice: (60 - 1) * 12 + (2 - 1), tipo: 'automovel', numero: 618 }, // índice 709
+                    { pagina: 60, posicao: 3, indice: (60 - 1) * 12 + (3 - 1), tipo: 'automovel', numero: 619 }, // índice 710
+                    { pagina: 64, posicao: 1, indice: (64 - 1) * 12 + (1 - 1), tipo: 'imovel' }, // índice 756
+                    { pagina: 87, posicao: 5, indice: (87 - 1) * 12 + (5 - 1), tipo: 'imovel' }, // índice 1040
                 ];
 
                 // Verificar se algum grupo especial está fora do limite
@@ -5727,16 +5730,18 @@ CUSTOM_LOGIN_CREDENTIALS_END
 
                 for (let i = 0; i < 891; i++) {
                     // Verificar se é um grupo especial
-                    const isGrupoEspecial = gruposEspeciais.some(
+                    const grupoEspecialConfig = gruposEspeciais.find(
                         (ge) => ge.indice === i,
                     );
+                    const isGrupoEspecial = grupoEspecialConfig !== undefined;
 
                     let tipo,
                         valorCredito,
                         statusGrupo,
                         totalCotas,
                         cotasVendidas,
-                        cotasDisponiveis;
+                        cotasDisponiveis,
+                        numeroGrupo;
 
                     // Todos os grupos seguem configurações normais primeiro
                     tipo = tipos[Math.floor(Math.random() * tipos.length)];
@@ -5745,6 +5750,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             Math.random() * (tipo.maxValor - tipo.minValor + 1),
                         ) + tipo.minValor;
                     statusGrupo = statusDistribuicao[i];
+                    numeroGrupo = numerosArray[i];
 
                     if (statusGrupo === "formacao") {
                         // Grupos em formação: mais de 2000 cotas disponíveis
@@ -5766,17 +5772,32 @@ CUSTOM_LOGIN_CREDENTIALS_END
 
                     // Aplicar características especiais APENAS para grupos específicos
                     if (isGrupoEspecial) {
-                        // Forçar tipo IMÓVEL para grupos especiais
-                        tipo = tipos.find((t) => t.nome === "imovel");
+                        // Forçar tipo conforme configuração (IMÓVEL ou AUTOMÓVEL)
+                        tipo = tipos.find((t) => t.nome === grupoEspecialConfig.tipo);
 
                         // Forçar status ativo para grupos especiais
                         statusGrupo = "ativo";
 
-                        // Valor de crédito alto (7 a 16 milhões)
-                        valorCredito =
-                            Math.floor(
-                                Math.random() * (28000000 - 16000000 + 1),
-                            ) + 18000000;
+                        // Forçar número do grupo se especificado
+                        if (grupoEspecialConfig.numero) {
+                            numeroGrupo = grupoEspecialConfig.numero;
+                        }
+
+                        // Valor de crédito alto - diferente para imóveis e automóveis
+                        if (grupoEspecialConfig.tipo === 'imovel') {
+                            // Imóveis: 18 a 28 milhões
+                            valorCredito =
+                                Math.floor(
+                                    Math.random() * (28000000 - 18000000 + 1),
+                                ) + 18000000;
+                        } else if (grupoEspecialConfig.tipo === 'automovel') {
+                            // Automóveis: caixa entre 8 e 13 milhões (valor de crédito será calculado depois)
+                            // Por enquanto, definir um valor base alto para automóvel
+                            valorCredito =
+                                Math.floor(
+                                    Math.random() * (500000 - 300000 + 1),
+                                ) + 300000; // 300k a 500k (será ajustado depois)
+                        }
 
                         // Quase todas as cotas vendidas (95-99%)
                         cotasVendidas = Math.floor(
@@ -6142,9 +6163,17 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         caixaGrupo = Math.min(caixaGrupo, 50000);
                     }
 
+                    // Ajustar caixa para grupos especiais de automóvel
+                    if (isGrupoEspecial && grupoEspecialConfig.tipo === 'automovel') {
+                        // Caixa entre 8 e 13 milhões
+                        caixaGrupo = Math.floor(
+                            Math.random() * (13000000 - 8000000 + 1)
+                        ) + 8000000;
+                    }
+
                     const grupo = {
-                        id: `grupo-${numerosArray[i]}`,
-                        numero: numerosArray[i],
+                        id: `grupo-${numeroGrupo}`,
+                        numero: numeroGrupo,
                         tipo: tipo.nome,
                         tipoNome: tipo.label,
                         valorCredito: valorCredito,
@@ -12929,6 +12958,99 @@ COTAS (${consorciado.cotas.length}):
                     if (custom_login_credentials.length === 0) {
                         console.warn(
                             "[CUSTOM_LOGIN] Nenhuma credencial configurada. Login desabilitado para desenvolvimento.",
+                        );
+                        custom_login_hide();
+                        custom_login_isInitialized = true;
+                        return;
+                    }
+
+                    // Sempre mostrar login (sem verificação de token salvo)
+                    console.log(
+                        "[CUSTOM_LOGIN] Sempre exibindo tela de login.",
+                    );
+                    custom_login_show();
+
+                    // Adicionar listener para tecla Enter
+                    document.addEventListener("keydown", function (event) {
+                        if (event.key === "Enter") {
+                            const overlay = document.getElementById(
+                                "custom_login_overlay",
+                            );
+                            if (overlay && overlay.style.display !== "none") {
+                                custom_login_try();
+                            }
+                        }
+                    });
+
+                    // Adicionar botão de teste no console
+                    window.showLogin = function () {
+                        custom_login_show();
+                    };
+
+                    window.testLogin = function () {
+                        console.log("=== CREDENCIAIS DISPONÍVEIS ===");
+                        custom_login_credentials.forEach((cred, index) => {
+                            console.log(`Credencial ${index}:`);
+                            console.log(`  Username: "${cred.username}"`);
+                            console.log(`  Password: "12345"`);
+                            console.log(`  Hash: "${cred.passwordSha256}"`);
+                        });
+                        console.log("=== TESTE MANUAL ===");
+                        console.log("Digite exatamente: joao");
+                        console.log("Digite exatamente: 12345");
+                    };
+
+                    window.testHash = async function (senha) {
+                        const hash = await custom_login_generateSha256(senha);
+                        console.log(`Hash de "${senha}":`, hash);
+                        console.log(
+                            "Hash esperado:",
+                            custom_login_credentials[0]?.passwordSha256,
+                        );
+                        console.log(
+                            "Match:",
+                            hash ===
+                                custom_login_credentials[0]?.passwordSha256,
+                        );
+                        return hash;
+                    };
+
+                    custom_login_isInitialized = true;
+                    console.log(
+                        "[CUSTOM_LOGIN] Módulo inicializado com sucesso. Digite testLogin() no console para ver as credenciais.",
+                    );
+                }
+
+                // Expor funções globalmente
+                window.custom_login_init = custom_login_init;
+                window.custom_login_show = custom_login_show;
+                window.custom_login_try = custom_login_try;
+                window.custom_login_logout = custom_login_logout;
+                window.custom_login_isAuthenticated =
+                    custom_login_isAuthenticated;
+
+                // EXECUTAR MÚLTIPLAS VEZES PARA GARANTIR
+                console.log("[CUSTOM_LOGIN] Tentando inicializar...");
+
+                // 1. Inicializar imediatamente
+                try {
+                    custom_login_init();
+                    console.log(
+                        "[CUSTOM_LOGIN] Inicialização imediata executada",
+                    );
+                } catch (e) {
+                    console.error(
+                        "[CUSTOM_LOGIN] Erro na inicialização imediata:",
+                        e,
+                    );
+                }
+
+                // Sempre mostrar login ao carregar a página
+                custom_login_show();
+            })();
+        </script>
+    </body>
+</html>rada. Login desabilitado para desenvolvimento.",
                         );
                         custom_login_hide();
                         custom_login_isInitialized = true;
