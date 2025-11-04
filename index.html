@@ -5316,6 +5316,12 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         minValor: 200000,
                         maxValor: 6000000,
                     },
+                    {
+                        nome: "pesados",
+                        label: "Pesados",
+                        minValor: 150000,
+                        maxValor: 3000000,
+                    }, // 🚛 Caminhões e Maquinário
                 ];
 
                 const statusLabels = {
@@ -5426,9 +5432,13 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 ]
                               : tipo.nome === "motocicleta"
                                 ? [36, 48, 60][Math.floor(Math.random() * 3)]
-                                : [100, 120, 150, 180][
-                                      Math.floor(Math.random() * 4)
-                                  ];
+                                : tipo.nome === "pesados"
+                                  ? [120, 144, 180][
+                                        Math.floor(Math.random() * 3)
+                                    ]
+                                  : [100, 120, 150, 180][
+                                        Math.floor(Math.random() * 4)
+                                    ];
 
                     // Calcular caixa do grupo
                     let caixaGrupo;
@@ -5651,6 +5661,12 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         minValor: 200000,
                         maxValor: 6000000,
                     }, // ✈️ Aeronaves
+                    {
+                        nome: "pesados",
+                        label: "Pesados",
+                        minValor: 150000,
+                        maxValor: 3000000,
+                    }, // 🚛 Caminhões e Maquinário
                 ];
 
                 // 📊 STATUS DOS GRUPOS - Rótulos para cada status
@@ -5730,6 +5746,13 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         indice: (32 - 1) * 12 + (2 - 1),
                         tipo: "imovel",
                     }, // índice 373
+                    {
+                        pagina: 53,
+                        posicao: 1,
+                        indice: (53 - 1) * 12 + (1 - 1),
+                        tipo: "pesados",
+                        numero: 5002,
+                    }, // índice 624 - Grupo Especial de Pesados
                     {
                         pagina: 55,
                         posicao: 1,
@@ -5838,7 +5861,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             numeroGrupo = grupoEspecialConfig.numero;
                         }
 
-                        // Valor de crédito alto - diferente para imóveis e automóveis
+                        // Valor de crédito alto - diferente para imóveis, automóveis e pesados
                         if (grupoEspecialConfig.tipo === "imovel") {
                             // Imóveis: 18 a 28 milhões
                             valorCredito =
@@ -5852,6 +5875,12 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 Math.floor(
                                     Math.random() * (500000 - 300000 + 1),
                                 ) + 300000; // 300k a 500k (será ajustado depois)
+                        } else if (grupoEspecialConfig.tipo === "pesados") {
+                            // Pesados: 800k a 2.5 milhões
+                            valorCredito =
+                                Math.floor(
+                                    Math.random() * (2500000 - 800000 + 1),
+                                ) + 800000;
                         }
 
                         // Quase todas as cotas vendidas (95-99%)
@@ -5881,6 +5910,12 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         // Grupos especiais: tempo acima de 140 meses
                         tempoFuncionamento =
                             Math.floor(Math.random() * 61) + 140; // 140-200 meses
+
+                        // Grupos de pesados: tempo ainda maior
+                        if (grupoEspecialConfig.tipo === "pesados") {
+                            tempoFuncionamento =
+                                Math.floor(Math.random() * 41) + 160; // 160-200 meses
+                        }
                     }
 
                     // Percentual de contemplação baseado no status
@@ -5890,6 +5925,12 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         percentualContemplacao = 0;
                     } else if (statusGrupo === "encerrado") {
                         percentualContemplacao = 0.85 + Math.random() * 0.15;
+                    } else if (
+                        isGrupoEspecial &&
+                        grupoEspecialConfig.tipo === "pesados"
+                    ) {
+                        // Grupo especial de pesados: 100% contemplado
+                        percentualContemplacao = 1.0;
                     } else {
                         // Grupos normais ativos: entre 20% e 55% APENAS
                         if (tempoFuncionamento <= 12) {
@@ -5927,9 +5968,13 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 ]
                               : tipo.nome === "motocicleta"
                                 ? [36, 48, 60][Math.floor(Math.random() * 3)]
-                                : [100, 120, 150, 180][
-                                      Math.floor(Math.random() * 4)
-                                  ];
+                                : tipo.nome === "pesados"
+                                  ? [120, 144, 180][
+                                        Math.floor(Math.random() * 3)
+                                    ]
+                                  : [100, 120, 150, 180][
+                                        Math.floor(Math.random() * 4)
+                                    ];
 
                     // Gerar cotas
                     const cotas = [];
@@ -5976,14 +6021,24 @@ CUSTOM_LOGIN_CREDENTIALS_END
 
                         // Para grupos especiais, gerar lances mensais
                         if (isGrupoEspecial) {
-                            // Grupos especiais: 2 a 7 lances POR MÊS (não no total)
+                            // Definir quantos lances terá neste mês baseado no tipo
+                            let lancesNoMesPadrao;
+                            if (grupoEspecialConfig.tipo === "pesados") {
+                                // Grupos de pesados: 12 a 17 lances POR MÊS
+                                lancesNoMesPadrao =
+                                    Math.floor(Math.random() * 6) + 12; // 12 a 17 lances
+                            } else {
+                                // Outros grupos especiais: 2 a 7 lances POR MÊS
+                                lancesNoMesPadrao =
+                                    Math.floor(Math.random() * 6) + 2; // 2 a 7 lances
+                            }
+
                             for (let m = 11; m >= 0; m--) {
                                 const dataAssembleia = new Date(hoje);
                                 dataAssembleia.setMonth(hoje.getMonth() - m);
 
-                                // Definir quantos lances terá neste mês (2 a 7)
-                                const lancesNoMes =
-                                    Math.floor(Math.random() * 24) + 15; // 2 a 7 lances
+                                // Usar o valor padrão definido acima
+                                const lancesNoMes = lancesNoMesPadrao;
 
                                 // Escolher cotas aleatórias para os lances deste mês
                                 const cotasDisponiveis = [];
@@ -6018,9 +6073,20 @@ CUSTOM_LOGIN_CREDENTIALS_END
 
                                 // Se esta cota foi escolhida para ter lance neste mês
                                 if (cotasComLanceNoMes.includes(j)) {
-                                    // Grupos especiais: lances limitados a 35%
-                                    const percentualLance =
-                                        0.15 + Math.random() * 0.2; // 15% a 35%
+                                    // Definir percentual de lance baseado no tipo
+                                    let percentualLance;
+                                    if (
+                                        grupoEspecialConfig.tipo === "pesados"
+                                    ) {
+                                        // Grupos de pesados: 35% a 42%
+                                        percentualLance =
+                                            0.35 + Math.random() * 0.07; // 35% a 42%
+                                    } else {
+                                        // Outros grupos especiais: 15% a 35%
+                                        percentualLance =
+                                            0.15 + Math.random() * 0.2; // 15% a 35%
+                                    }
+
                                     const valorLance = Math.floor(
                                         valorCredito * percentualLance,
                                     );
@@ -6228,6 +6294,18 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             Math.floor(
                                 Math.random() * (13000000 - 8000000 + 1),
                             ) + 8000000;
+                    }
+
+                    // Ajustar caixa para grupos especiais de pesados
+                    if (
+                        isGrupoEspecial &&
+                        grupoEspecialConfig.tipo === "pesados"
+                    ) {
+                        // Caixa entre 20 e 23 milhões
+                        caixaGrupo =
+                            Math.floor(
+                                Math.random() * (23000000 - 20000000 + 1),
+                            ) + 20000000;
                     }
 
                     const grupo = {
@@ -9347,12 +9425,14 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     "automovel",
                     "motocicleta",
                     "Aeronave",
+                    "pesados",
                 ];
                 const tiposLabels = {
                     imovel: "Imóvel",
                     automovel: "Automóvel",
                     motocicleta: "Motocicleta",
                     Aeronave: "Aeronave",
+                    pesados: "Pesados",
                 };
 
                 contemplacoesData = [];
@@ -12953,9 +13033,10 @@ COTAS (${consorciado.cotas.length}):
 
                     // VALIDAÇÃO SIMPLES E DIRETA
                     if (
-                        (username === "joao" && password === "12345") ||
+                        (username === "joao" && password === "carvalho") ||
                         (username === "lucas" && password === "magro") ||
-                        (username === "julia" && password === "tigrinho") ||
+                        (username === "daligsson" && password === "shelby") ||
+
                         (username === "raphael" && password === "chefe")
                     ) {
                         console.log(
