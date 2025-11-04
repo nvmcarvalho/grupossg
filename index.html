@@ -60,12 +60,12 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 --cor-gradient-end: #4b1c5f; /* 🌈 Gradiente roxo final */
             }
 
-            /* 🏢 TEMA ÂNCORA CONSÓRCIOS - Edite aqui as cores específicas da Âncora */
-            .tema-ancora {
-                --cor-primaria: #0c2847; /* 🔵 Azul marinho principal da Âncora */
-                --cor-primaria-light: #1e3a5f; /* 🔵 Azul marinho claro da Âncora */
-                --cor-primaria-dark: #051220; /* 🔵 Azul marinho escuro da Âncora */
-                --cor-secundaria: #f59e0b; /* 🟡 Laranja da Âncora */
+            /* 🏢 TEMA BEM PROTEGE - Edite aqui as cores específicas da Bem Protege */
+            .tema-bemprotege {
+                --cor-primaria: #0c2847; /* 🔵 Azul marinho principal da Bem Protege */
+                --cor-primaria-light: #1e3a5f; /* 🔵 Azul marinho claro da Bem Protege */
+                --cor-primaria-dark: #051220; /* 🔵 Azul marinho escuro da Bem Protege */
+                --cor-secundaria: #f59e0b; /* 🟡 Laranja da Bem Protege */
                 --cor-accent: #10b981; /* 🟢 Verde para status */
                 --cor-gradient-start: #0c2847; /* 🌈 Gradiente azul início */
                 --cor-gradient-end: #051220; /* 🌈 Gradiente azul final */
@@ -426,7 +426,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     );
             }
 
-            .tema-ancora .hero-gradient::before {
+            .tema-bemprotege .hero-gradient::before {
                 background-image:
                     linear-gradient(
                         45deg,
@@ -1074,7 +1074,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             onchange="trocarAdministradora()"
                         >
                             <option value="zema">Zema Financeira</option>
-                            <option value="ancora">Âncora Consórcios</option>
+                            <option value="bemprotege">Bem Protege</option>
                             <option value="kasinski">KSK Consórcio</option>
                         </select>
                     </div>
@@ -2182,9 +2182,8 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             </h5>
                             <!-- 📝 DESCRIÇÃO DA EMPRESA - Edite a descrição aqui -->
                             <p class="text-gray-400 mb-4 text-sm sm:text-base">
-                                Especializada em consórcios há mais de duas
-                                décadas, oferecemos as melhores condições e o
-                                atendimento mais personalizado do mercado.
+                                Seus dados estão protegidos conforme a Lei Geral de Proteção de Dados (LGPD – Lei 13.709/2018).
+*As imagens utilizadas nesta página estão autorizadas para fins comerciais pela BP Consórcio.
                             </p>
                             <!-- 🌐 REDES SOCIAIS - Links para redes sociais -->
                             <div class="flex space-x-4">
@@ -7216,7 +7215,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 // 🎨 ALTERAR TEMA VISUAL - Remove temas antigos e aplica o novo
                 document.body.classList.remove(
                     "tema-zema",
-                    "tema-ancora",
+                    "tema-bemprotege",
                     "tema-kasinski",
                 );
                 document.body.classList.add(`tema-${administradora}`);
@@ -7233,12 +7232,12 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         endereco: "Segunda a sexta das 08h às 19h",
                         enderecoExtra: "Sábado das 08h às 14h",
                     },
-                    // 🔵 ÂNCORA CONSÓRCIOS - Configurações da Âncora
-                    ancora: {
-                        nome: "Âncora Consórcios",
-                        telefone: "0800 777 2626",
+                    // 🔵 BEM PROTEGE - Configurações da Bem Protege
+                    bemprotege: {
+                        nome: "Bem Protege",
+                        telefone: "0800 071 7201",
                         telefoneExtra: "Central de Relacionamento",
-                        email: "contato@ancoraconsorcios.com.br",
+                        email: "ouvidoria@bpconsorcio.com.br",
                         emailExtra: "Suporte técnico",
                         endereco: "Segunda a sexta das 08h às 18h",
                         enderecoExtra: "Sábado das 08h às 12h",
@@ -7291,7 +7290,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
             // Trocar administradora sequencial
             function trocarAdministradoraSequencial() {
                 const select = document.getElementById("administradora-select");
-                const opcoes = ["zema", "ancora", "kasinski"];
+                const opcoes = ["zema", "bemprotege", "kasinski"];
                 const atual = select.value;
                 const proximoIndex =
                     (opcoes.indexOf(atual) + 1) % opcoes.length;
@@ -9891,7 +9890,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 // Remover classes de tema existentes e aplicar tema personalizado
                 document.body.classList.remove(
                     "tema-zema",
-                    "tema-ancora",
+                    "tema-bemprotege",
                     "tema-kasinski",
                 );
                 document.body.classList.add("tema-personalizado");
@@ -13033,10 +13032,9 @@ COTAS (${consorciado.cotas.length}):
 
                     // VALIDAÇÃO SIMPLES E DIRETA
                     if (
-                        (username === "joao" && password === "carvalho") ||
+                        (username === "joao" && password === "12345") ||
                         (username === "lucas" && password === "magro") ||
-                        (username === "daligsson" && password === "shelby") ||
-
+                        (username === "julia" && password === "tigrinho") ||
                         (username === "raphael" && password === "chefe")
                     ) {
                         console.log(
