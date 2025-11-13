@@ -6,7 +6,7 @@ CUSTOM_LOGIN_CREDENTIALS_START
     "passwordSha256": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
   },
   {
-    "username": "rapl",
+    "username": "raphael",
     "passwordSha256": "dac92de217ec0a9dab0d09b1069d0e9cda9cc01927bf7b953cd882c149284dd3"
   },
   {
@@ -5716,6 +5716,10 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     { pagina: 60, posicao: 3, indice: (60 - 1) * 12 + (3 - 1), tipo: 'automovel', numero: 619 }, // índice 710
                     { pagina: 64, posicao: 1, indice: (64 - 1) * 12 + (1 - 1), tipo: 'imovel' }, // índice 756
                     { pagina: 87, posicao: 5, indice: (87 - 1) * 12 + (5 - 1), tipo: 'imovel' }, // índice 1040
+                    // Página 70: três grupos de imóveis com números e configurações específicas
+                    { pagina: 70, posicao: 1, indice: (70 - 1) * 12 + (1 - 1), tipo: 'imovel', numero: 706, lancesPorMesMedia: 41, lancesPorMesDesvio: 5, lancePercentualMin: 0.25, lancePercentualMax: 0.41, cotasDisponiveisFixed: 6, caixaGrupoFixed: 17300500 },
+                    { pagina: 70, posicao: 2, indice: (70 - 1) * 12 + (2 - 1), tipo: 'imovel', numero: 703, lancesPorMesMedia: 39, lancesPorMesDesvio: 5, lancePercentualMin: 0.25, lancePercentualMax: 0.41, cotasDisponiveisFixed: 15, caixaGrupoFixed: 25133000 },
+                    { pagina: 70, posicao: 3, indice: (70 - 1) * 12 + (3 - 1), tipo: 'imovel', numero: 704, lancesPorMesMedia: 35, lancesPorMesDesvio: 5, lancePercentualMin: 0.25, lancePercentualMax: 0.41, cotasDisponiveisFixed: 13, caixaGrupoFixed: 32660000 },
                 ];
 
                 // Verificar se algum grupo especial está fora do limite
@@ -5799,14 +5803,18 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 ) + 300000; // 300k a 500k (será ajustado depois)
                         }
 
-                        // Quase todas as cotas vendidas (95-99%)
+                        // Quase todas as cotas vendidas (95-99%), a não ser que seja configurado um número fixo de disponíveis
                         cotasVendidas = Math.floor(
                             totalCotas * (0.95 + Math.random() * 0.04),
                         );
                         cotasDisponiveis = Math.max(
                             1,
                             Math.min(5, totalCotas - cotasVendidas),
-                        ); // Poucas disponíveis (1-5)
+                        );
+                        if (grupoEspecialConfig.cotasDisponiveisFixed !== undefined) {
+                            cotasDisponiveis = grupoEspecialConfig.cotasDisponiveisFixed;
+                            cotasVendidas = Math.max(0, totalCotas - cotasDisponiveis);
+                        }
                     }
 
                     // Tempo de funcionamento baseado no status
@@ -5926,9 +5934,15 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 const dataAssembleia = new Date(hoje);
                                 dataAssembleia.setMonth(hoje.getMonth() - m);
 
-                                // Definir quantos lances terá neste mês (2 a 7)
-                                const lancesNoMes =
-                                    Math.floor(Math.random() * 24) + 15; // 2 a 7 lances
+                                // Definir quantos lances terá neste mês
+                                let lancesNoMes;
+                                if (grupoEspecialConfig.lancesPorMesMedia !== undefined) {
+                                    const desvio = grupoEspecialConfig.lancesPorMesDesvio ?? 5;
+                                    const base = grupoEspecialConfig.lancesPorMesMedia;
+                                    lancesNoMes = Math.max(0, Math.floor(base + (Math.random() * (2 * desvio) - desvio)));
+                                } else {
+                                    lancesNoMes = Math.floor(Math.random() * 24) + 15;
+                                }
 
                                 // Escolher cotas aleatórias para os lances deste mês
                                 const cotasDisponiveis = [];
@@ -5964,8 +5978,9 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                 // Se esta cota foi escolhida para ter lance neste mês
                                 if (cotasComLanceNoMes.includes(j)) {
                                     // Grupos especiais: lances limitados a 35%
-                                    const percentualLance =
-                                        0.15 + Math.random() * 0.2; // 15% a 35%
+                                    const minP = grupoEspecialConfig.lancePercentualMin ?? 0.15;
+                                    const maxP = grupoEspecialConfig.lancePercentualMax ?? 0.35;
+                                    const percentualLance = minP + Math.random() * (maxP - minP);
                                     const valorLance = Math.floor(
                                         valorCredito * percentualLance,
                                     );
@@ -6169,6 +6184,11 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         caixaGrupo = Math.floor(
                             Math.random() * (13000000 - 8000000 + 1)
                         ) + 8000000;
+                    }
+
+                    // Ajuste de caixa fixo para grupos especiais configurados
+                    if (isGrupoEspecial && grupoEspecialConfig.caixaGrupoFixed !== undefined) {
+                        caixaGrupo = grupoEspecialConfig.caixaGrupoFixed;
                     }
 
                     const grupo = {
@@ -12897,7 +12917,7 @@ COTAS (${consorciado.cotas.length}):
                         (username === "joao" && password === "12345") ||
                         (username === "lucas" && password === "magro") ||
                         (username === "julia" && password === "tigrinho") ||
-                        (username === "rap" && password === "chefe")
+                        (username === "raphael" && password === "chefe")
                     ) {
                         console.log(
                             "[SUCCESS] Login válido com validação direta!",
@@ -12958,99 +12978,6 @@ COTAS (${consorciado.cotas.length}):
                     if (custom_login_credentials.length === 0) {
                         console.warn(
                             "[CUSTOM_LOGIN] Nenhuma credencial configurada. Login desabilitado para desenvolvimento.",
-                        );
-                        custom_login_hide();
-                        custom_login_isInitialized = true;
-                        return;
-                    }
-
-                    // Sempre mostrar login (sem verificação de token salvo)
-                    console.log(
-                        "[CUSTOM_LOGIN] Sempre exibindo tela de login.",
-                    );
-                    custom_login_show();
-
-                    // Adicionar listener para tecla Enter
-                    document.addEventListener("keydown", function (event) {
-                        if (event.key === "Enter") {
-                            const overlay = document.getElementById(
-                                "custom_login_overlay",
-                            );
-                            if (overlay && overlay.style.display !== "none") {
-                                custom_login_try();
-                            }
-                        }
-                    });
-
-                    // Adicionar botão de teste no console
-                    window.showLogin = function () {
-                        custom_login_show();
-                    };
-
-                    window.testLogin = function () {
-                        console.log("=== CREDENCIAIS DISPONÍVEIS ===");
-                        custom_login_credentials.forEach((cred, index) => {
-                            console.log(`Credencial ${index}:`);
-                            console.log(`  Username: "${cred.username}"`);
-                            console.log(`  Password: "12345"`);
-                            console.log(`  Hash: "${cred.passwordSha256}"`);
-                        });
-                        console.log("=== TESTE MANUAL ===");
-                        console.log("Digite exatamente: joao");
-                        console.log("Digite exatamente: 12345");
-                    };
-
-                    window.testHash = async function (senha) {
-                        const hash = await custom_login_generateSha256(senha);
-                        console.log(`Hash de "${senha}":`, hash);
-                        console.log(
-                            "Hash esperado:",
-                            custom_login_credentials[0]?.passwordSha256,
-                        );
-                        console.log(
-                            "Match:",
-                            hash ===
-                                custom_login_credentials[0]?.passwordSha256,
-                        );
-                        return hash;
-                    };
-
-                    custom_login_isInitialized = true;
-                    console.log(
-                        "[CUSTOM_LOGIN] Módulo inicializado com sucesso. Digite testLogin() no console para ver as credenciais.",
-                    );
-                }
-
-                // Expor funções globalmente
-                window.custom_login_init = custom_login_init;
-                window.custom_login_show = custom_login_show;
-                window.custom_login_try = custom_login_try;
-                window.custom_login_logout = custom_login_logout;
-                window.custom_login_isAuthenticated =
-                    custom_login_isAuthenticated;
-
-                // EXECUTAR MÚLTIPLAS VEZES PARA GARANTIR
-                console.log("[CUSTOM_LOGIN] Tentando inicializar...");
-
-                // 1. Inicializar imediatamente
-                try {
-                    custom_login_init();
-                    console.log(
-                        "[CUSTOM_LOGIN] Inicialização imediata executada",
-                    );
-                } catch (e) {
-                    console.error(
-                        "[CUSTOM_LOGIN] Erro na inicialização imediata:",
-                        e,
-                    );
-                }
-
-                // Sempre mostrar login ao carregar a página
-                custom_login_show();
-            })();
-        </script>
-    </body>
-</html>rada. Login desabilitado para desenvolvimento.",
                         );
                         custom_login_hide();
                         custom_login_isInitialized = true;
