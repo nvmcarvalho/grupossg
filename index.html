@@ -1,22 +1,3 @@
-<!--
-CUSTOM_LOGIN_CREDENTIALS_START
-[
-  {
-    "username": "joao",
-    "passwordSha256": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
-  },
-  {
-    "username": "raphael",
-    "passwordSha256": "dac92de217ec0a9dab0d09b1069d0e9cda9cc01927bf7b953cd882c149284dd3"
-  },
-  {
-    "username": "lucas",
-    "passwordSha256": "73bf40a27df2be02f4f00ecace03ae7d61a67d0d8296af12f9c2302633aa6957"
-  }
-]
-CUSTOM_LOGIN_CREDENTIALS_END
--->
-
 <!doctype html>
 <html lang="pt-BR" class="h-full">
     <head>
@@ -2487,6 +2468,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     </div>
                 </div>
             </footer>
+            
         </div>
         <!-- Fim da página principal -->
 
@@ -3156,6 +3138,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     </footer>
                 </div>
             </section>
+            
         </div>
         <!-- END Consorciados Tab -->
 
@@ -3233,6 +3216,75 @@ CUSTOM_LOGIN_CREDENTIALS_END
                             Cadastrar Cotas
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-cadastro-cota" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900">Cadastro de Cota</h3>
+                    <button onclick="toggleCadastroCota()" class="text-gray-400 hover:text-gray-500">×</button>
+                </div>
+                <div class="p-6">
+                    <form id="form-cadastro-cota" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Grupo</label>
+                                <input type="number" id="cad-grupo" class="w-full border border-gray-300 rounded-md p-2" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Número da Cota</label>
+                                <input type="number" id="cad-numero" class="w-full border border-gray-300 rounded-md p-2" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Valor da Carta de Crédito</label>
+                                <input type="text" id="cad-valor-credito" class="w-full border border-gray-300 rounded-md p-2" placeholder="R$ 0,00" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Valor da Parcela Mensal</label>
+                                <input type="text" id="cad-valor-parcela" class="w-full border border-gray-300 rounded-md p-2" placeholder="R$ 0,00" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Saldo Devedor</label>
+                                <input type="text" id="cad-saldo-devedor" class="w-full border border-gray-300 rounded-md p-2" placeholder="R$ 0,00" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Último Lance Ofertado</label>
+                                <input type="text" id="cad-ultimo-lance" class="w-full border border-gray-300 rounded-md p-2" placeholder="R$ 0,00" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Bem</label>
+                                <select id="cad-tipo" class="w-full border border-gray-300 rounded-md p-2">
+                                    <option value="automovel">🚗 Automóvel</option>
+                                    <option value="imovel">🏠 Imóvel</option>
+                                    <option value="motocicleta">🏍️ Motocicleta</option>
+                                    <option value="aeronaves">✈️ Aeronaves</option>
+                                    <option value="outros">📦 Outros</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Prazo Total (meses)</label>
+                                <input type="number" id="cad-prazo" class="w-full border border-gray-300 rounded-md p-2" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Parcela Atual</label>
+                                <input type="number" id="cad-parcela-atual" class="w-full border border-gray-300 rounded-md p-2" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Situação Atual</label>
+                                <select id="cad-situacao" class="w-full border border-gray-300 rounded-md p-2">
+                                    <option value="ativo">⏳ Em Andamento</option>
+                                    <option value="contemplado">✅ Contemplada</option>
+                                    <option value="reserva">🔄 Em Reserva</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" onclick="toggleCadastroCota()" class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md">Cancelar</button>
+                            <button type="button" onclick="salvarCadastroCota()" class="px-4 py-2 text-sm font-medium text-white bg-primario hover:bg-primario-dark rounded-md">Salvar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -4222,7 +4274,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
             </section>
 
             <!-- 📋 CONTEÚDO PRINCIPAL - Blocos de informações da cota -->
-            <section class="py-12 sm:py-20 bg-gray-50">
+            <section id="detalhes-conteudo" class="py-12 sm:py-20 bg-gray-50 hidden">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <!-- 🔹 BLOCO 1 - IDENTIFICAÇÃO DA COTA -->
                     <div
@@ -4269,7 +4321,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                         onblur="salvarCampoDetalhes(this)"
                                         onkeydown="if(event.key==='Enter'){this.blur()}"
                                     >
-                                        1234
                                     </p>
                                 </div>
                                 <div>
@@ -4284,7 +4335,6 @@ CUSTOM_LOGIN_CREDENTIALS_END
                                         onblur="salvarCampoDetalhes(this)"
                                         onkeydown="if(event.key==='Enter'){this.blur()}"
                                     >
-                                        001
                                     </p>
                                 </div>
                             </div>
@@ -4983,6 +5033,11 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     </div>
                 </div>
             </section>
+            <footer class="bg-gray-100 py-4 mt-4">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-end items-center">
+                    <button id="cadastro-cota-btn" class="text-gray-400 text-xs px-2 py-1 opacity-30 hover:opacity-100 transition-opacity duration-300" title="Cadastro de Cota" onclick="toggleCadastroCota()">⊕</button>
+                </div>
+            </footer>
         </div>
 
         <!-- 🏆 POP-UP FIXO DE COTAS SORTEADAS - Botão flutuante no canto inferior direito -->
@@ -5711,15 +5766,16 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     { pagina: 14, posicao: 5, indice: (14 - 1) * 12 + (5 - 1), tipo: 'imovel' }, // índice 160
                     { pagina: 32, posicao: 2, indice: (32 - 1) * 12 + (2 - 1), tipo: 'imovel' }, // índice 373
                     { pagina: 55, posicao: 1, indice: (55 - 1) * 12 + (1 - 1), tipo: 'imovel' }, // índice 648
-                    { pagina: 60, posicao: 1, indice: (60 - 1) * 12 + (1 - 1), tipo: 'automovel', numero: 617 }, // índice 708
-                    { pagina: 60, posicao: 2, indice: (60 - 1) * 12 + (2 - 1), tipo: 'automovel', numero: 618 }, // índice 709
-                    { pagina: 60, posicao: 3, indice: (60 - 1) * 12 + (3 - 1), tipo: 'automovel', numero: 619 }, // índice 710
+                    { pagina: 70, posicao: 1, indice: (60 - 1) * 12 + (1 - 1), tipo: 'imovel', numero: 1014 }, // índice 708
+                    { pagina: 70, posicao: 2, indice: (60 - 1) * 12 + (2 - 1), tipo: 'imovel', numero: 1015 }, // índice 709
+                    { pagina: 70, posicao: 3, indice: (60 - 1) * 12 + (3 - 1), tipo: 'imovel', numero: 1019 }, // índice 710
                     { pagina: 64, posicao: 1, indice: (64 - 1) * 12 + (1 - 1), tipo: 'imovel' }, // índice 756
                     { pagina: 87, posicao: 5, indice: (87 - 1) * 12 + (5 - 1), tipo: 'imovel' }, // índice 1040
                     // Página 70: três grupos de imóveis com números e configurações específicas
-                    { pagina: 70, posicao: 1, indice: (70 - 1) * 12 + (1 - 1), tipo: 'imovel', numero: 706, lancesPorMesMedia: 41, lancesPorMesDesvio: 5, lancePercentualMin: 0.25, lancePercentualMax: 0.41, cotasDisponiveisFixed: 6, caixaGrupoFixed: 17300500 },
-                    { pagina: 70, posicao: 2, indice: (70 - 1) * 12 + (2 - 1), tipo: 'imovel', numero: 703, lancesPorMesMedia: 39, lancesPorMesDesvio: 5, lancePercentualMin: 0.25, lancePercentualMax: 0.41, cotasDisponiveisFixed: 15, caixaGrupoFixed: 25133000 },
-                    { pagina: 70, posicao: 3, indice: (70 - 1) * 12 + (3 - 1), tipo: 'imovel', numero: 704, lancesPorMesMedia: 35, lancesPorMesDesvio: 5, lancePercentualMin: 0.25, lancePercentualMax: 0.41, cotasDisponiveisFixed: 13, caixaGrupoFixed: 32660000 },
+                    { pagina: 60, posicao: 1, indice: (70 - 1) * 12 + (1 - 1), tipo: 'imovel', numero: 1014, lancesPorMesMedia: 41, lancesPorMesDesvio: 5, lancePercentualMin: 0.25, lancePercentualMax: 0.32, cotasDisponiveisFixed: 71, caixaGrupoFixed: 17300500 },
+                    { pagina: 60, posicao: 2, indice: (70 - 1) * 12 + (2 - 1), tipo: 'imovel', numero: 1015, lancesPorMesMedia: 39, lancesPorMesDesvio: 5, lancePercentualMin: 0.18, lancePercentualMax: 0.36, cotasDisponiveisFixed: 59, caixaGrupoFixed: 25133000 },
+                    { pagina: 60, posicao: 3, indice: (70 - 1) * 12 + (3 - 1), tipo: 'imovel', numero: 1017, lancesPorMesMedia: 35, lancesPorMesDesvio: 5, lancePercentualMin: 0.21, lancePercentualMax: 0.41, cotasDisponiveisFixed: 37, caixaGrupoFixed: 32660000 },
+                    { pagina: 60, posicao: 4, indice: (70 - 1) * 12 + (4 - 1), tipo: 'imovel', numero: 1019, lancesPorMesMedia: 20, lancesPorMesDesvio: 5, lancePercentualMin: 0.21, lancePercentualMax: 0.41, cotasDisponiveisFixed: 11, caixaGrupoFixed: 14260000 },
                 ];
 
                 // Verificar se algum grupo especial está fora do limite
@@ -7143,6 +7199,23 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 // 🌐 ALTERAR TÍTULO DA ABA DO NAVEGADOR - Muda o nome que aparece na aba
                 document.title = `${config.nome} - Consulta de Cotas e Lances`;
 
+                const logoImg = document.getElementById("logo-imagem");
+                const logoTexto = document.getElementById("logo-administradora");
+                const logos = {
+                    zema: "https://gruposcsc.com.br/logos/zema.png",
+                    ancora: "https://gruposcsc.com.br/logos/ancora.jpg",
+                    kasinski: "https://gruposcsc.com.br/logos/logo.png",
+                };
+                logoImg.src = logos[administradora] || "";
+                if (logoImg.src) {
+                    logoImg.classList.remove("hidden");
+                    logoTexto.style.display = "none";
+                    const tamanhoSlider = document.getElementById("tamanho-logo");
+                    if (tamanhoSlider) {
+                        alterarTamanhoLogo(tamanhoSlider.value);
+                    }
+                }
+
                 document.getElementById("logo-administradora").textContent =
                     config.nome;
                 document.getElementById("contato-telefone").textContent =
@@ -7210,9 +7283,14 @@ CUSTOM_LOGIN_CREDENTIALS_END
             function alterarTamanhoLogo(tamanho) {
                 const logoImg = document.getElementById("logo-imagem");
                 if (logoImg && !logoImg.classList.contains("hidden")) {
-                    logoImg.style.height = `${tamanho}px`;
+                    const select = document.getElementById("administradora-select");
+                    const administradora = select ? select.value : null;
+                    const base = parseInt(tamanho, 10) || 0;
+                    const scaleMap = { zema: 0.6, kasinski: 0.8, ancora: 0.85 };
+                    const scale = scaleMap[administradora] || 1;
+                    const finalHeight = Math.max(1, Math.round(base * scale));
+                    logoImg.style.height = `${finalHeight}px`;
                     logoImg.style.width = "auto";
-                    console.log(`Tamanho da logo alterado para ${tamanho}px`);
                 }
             }
 
@@ -8642,7 +8720,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 document.getElementById("detalhes-tipo-garantia").textContent =
                     tipoGarantia;
 
-                // Navegar para a página de detalhes
+                document.getElementById("detalhes-conteudo").classList.remove("hidden");
                 mostrarPagina("detalhes");
             }
 
@@ -8735,6 +8813,22 @@ CUSTOM_LOGIN_CREDENTIALS_END
                     return;
                 }
 
+                try {
+                    const cadastradasJSON = localStorage.getItem("cotasCadastro");
+                    const cadastradas = cadastradasJSON ? JSON.parse(cadastradasJSON) : {};
+                    const cotaRegistrada = cadastradas[numeroInt] || cadastradas[numeroCota];
+                    if (cotaRegistrada) {
+                        exibirDetalhesCotaCadastrada(cotaRegistrada);
+                        input.style.borderColor = "#10b981";
+                        input.style.backgroundColor = "#f0fdf4";
+                        setTimeout(() => {
+                            input.style.borderColor = "";
+                            input.style.backgroundColor = "";
+                        }, 2000);
+                        return;
+                    }
+                } catch (e) {}
+
                 // Se dados de teste estão ativos, procurar nas cotas pré-cadastradas
                 if (dadosTesteAtivos) {
                     console.log(
@@ -8777,32 +8871,29 @@ CUSTOM_LOGIN_CREDENTIALS_END
                         "❌ Cota não encontrada nos dados pré-cadastrados",
                     );
 
-                    // Verificar se há clientes cadastrados
-                    const clientesCadastrados = Object.values(
-                        dadosPreCadastradosEditaveis,
-                    );
+                    const grupoAleatorio =
+                        gruposData[Math.floor(Math.random() * gruposData.length)];
+                    const cotaGerada = {
+                        numero: numeroInt,
+                        contemplada: Math.random() < 0.2,
+                        lance:
+                            Math.random() < 0.5
+                                ? Math.floor(
+                                      grupoAleatorio.valorCredito *
+                                          (0.1 + Math.random() * 0.3),
+                                  )
+                                : 0,
+                    };
 
-                    if (clientesCadastrados.length === 0) {
-                        alert(
-                            `Cota ${numeroInt} não encontrada.\n\nNenhum cliente cadastrado ainda.\n\nUse o botão "✏️ Editar Dados" no footer para cadastrar seus clientes e cotas.`,
-                        );
-                    } else {
-                        // Criar lista dinâmica das cotas disponíveis
-                        let listaCotas = "Cotas disponíveis:\n";
-                        for (const [chave, dadosCliente] of Object.entries(
-                            dadosPreCadastradosEditaveis,
-                        )) {
-                            for (const cota of dadosCliente.cotas) {
-                                listaCotas += `- ${cota.numeroCota} (${dadosCliente.nome})\n`;
-                            }
-                        }
+                    atualizarDetalhesCota(grupoAleatorio, cotaGerada);
 
-                        alert(
-                            `Cota ${numeroInt} não encontrada nos dados de teste.\n\n${listaCotas}`,
-                        );
-                    }
+                    input.style.borderColor = "#10b981";
+                    input.style.backgroundColor = "#f0fdf4";
+                    setTimeout(() => {
+                        input.style.borderColor = "";
+                        input.style.backgroundColor = "";
+                    }, 2000);
 
-                    input.focus();
                     return;
                 }
 
@@ -8822,10 +8913,30 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 }
 
                 if (!cotaEncontrada) {
-                    alert(
-                        `Cota ${numeroInt} não encontrada no sistema.\n\nVerifique se o número está correto e tente novamente.`,
-                    );
-                    input.focus();
+                    const grupoAleatorio =
+                        gruposData[Math.floor(Math.random() * gruposData.length)];
+                    const cotaGerada = {
+                        numero: numeroInt,
+                        contemplada: Math.random() < 0.2,
+                        lance:
+                            Math.random() < 0.5
+                                ? Math.floor(
+                                      grupoAleatorio.valorCredito *
+                                          (0.1 + Math.random() * 0.3),
+                                  )
+                                : 0,
+                    };
+
+                    atualizarDetalhesCota(grupoAleatorio, cotaGerada);
+
+                    input.style.borderColor = "#10b981";
+                    input.style.backgroundColor = "#f0fdf4";
+                    setTimeout(() => {
+                        input.style.borderColor = "";
+                        input.style.backgroundColor = "";
+                    }, 2000);
+
+                    console.log(`Cota ${numeroInt} gerada aleatoriamente`);
                     return;
                 }
 
@@ -8962,6 +9073,7 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 document.getElementById("detalhes-tipo-garantia").textContent =
                     tipoGarantia;
 
+                document.getElementById("detalhes-conteudo").classList.remove("hidden");
                 // Scroll suave para o conteúdo
                 document
                     .querySelector("#pagina-detalhes .py-8")
@@ -11279,6 +11391,125 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 console.log("✅ Detalhes da cota atualizados com sucesso");
             }
 
+            function exibirDetalhesCotaCadastrada(cota) {
+                const tipoNomeMap = {
+                    imovel: "🏠 Imóvel",
+                    automovel: "🚗 Automóvel",
+                    motocicleta: "🏍️ Motocicleta",
+                    aeronaves: "✈️ Aeronaves",
+                    outros: "📦 Outros"
+                };
+                const tipoNome = cota.tipoNome || tipoNomeMap[cota.tipo] || "📦 Outros";
+
+                document.getElementById("detalhes-grupo-admin").textContent = `Grupo ${cota.grupo} - Zema Financeira`;
+                document.getElementById("detalhes-numero-cota").textContent = parseInt(cota.numeroCota).toString().padStart(3, "0");
+                document.getElementById("detalhes-valor-credito").textContent = formatarMoeda(cota.valorCredito || 0);
+                document.getElementById("detalhes-valor-carta").textContent = formatarMoeda(cota.valorCredito || 0);
+                document.getElementById("detalhes-tipo-bem").textContent = tipoNome;
+                document.getElementById("detalhes-prazo").textContent = `${cota.prazoTotal} meses`;
+                document.getElementById("detalhes-parcela-atual").textContent = `${cota.parcelaAtual}ª parcela`;
+                document.getElementById("detalhes-parcelas-pagas").textContent = `${Math.max((cota.parcelaAtual || 1) - 1, 0)} de ${cota.prazoTotal}`;
+                document.getElementById("detalhes-parcela-mensal").textContent = formatarMoeda(cota.valorParcela || 0);
+                document.getElementById("detalhes-saldo-devedor").textContent = formatarMoeda(cota.saldoDevedor || 0);
+
+                const lance = cota.ultimoLance || 0;
+                document.getElementById("detalhes-ultimo-lance").textContent = formatarMoeda(lance);
+                const perc = lance && cota.valorCredito ? ((lance / cota.valorCredito) * 100).toFixed(1) : "";
+                const percEl = document.getElementById("detalhes-ultimo-lance").nextElementSibling;
+                if (percEl) {
+                    percEl.textContent = perc ? `${perc}% do valor do crédito` : "";
+                }
+
+                const situacaoElement = document.getElementById("detalhes-situacao");
+                if (cota.situacao === "contemplado") {
+                    situacaoElement.textContent = "✅ Contemplada";
+                    situacaoElement.className = "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800";
+                } else if (cota.situacao === "reserva") {
+                    situacaoElement.textContent = "⏳ Em Reserva";
+                    situacaoElement.className = "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800";
+                } else {
+                    situacaoElement.textContent = "⏳ Em Andamento";
+                    situacaoElement.className = "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primario-light text-primario-dark";
+                }
+
+                document.getElementById("detalhes-conteudo").classList.remove("hidden");
+                const target = document.querySelector("#pagina-detalhes .py-8");
+                if (target && target.scrollIntoView) {
+                    target.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+
+                mostrarToast(`Detalhes da cota ${cota.numeroCota} carregados!`, "success");
+            }
+
+            function toggleCadastroCota() {
+                const modal = document.getElementById("modal-cadastro-cota");
+                if (!modal) return;
+                if (modal.classList.contains("hidden")) {
+                    modal.classList.remove("hidden");
+                    document.body.style.overflow = "hidden";
+                } else {
+                    modal.classList.add("hidden");
+                    document.body.style.overflow = "";
+                }
+            }
+
+            function salvarCadastroCota() {
+                const parseBRL = (s) => {
+                    const t = (s || "").toString().replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", ".");
+                    const n = parseFloat(t);
+                    return isNaN(n) ? 0 : n;
+                };
+
+                const grupo = parseInt(document.getElementById("cad-grupo").value);
+                const numeroCota = parseInt(document.getElementById("cad-numero").value);
+                const valorCredito = parseBRL(document.getElementById("cad-valor-credito").value);
+                const valorParcela = parseBRL(document.getElementById("cad-valor-parcela").value);
+                const saldoDevedor = parseBRL(document.getElementById("cad-saldo-devedor").value);
+                const ultimoLance = parseBRL(document.getElementById("cad-ultimo-lance").value);
+                const tipo = document.getElementById("cad-tipo").value;
+                const prazoTotal = parseInt(document.getElementById("cad-prazo").value);
+                const parcelaAtual = parseInt(document.getElementById("cad-parcela-atual").value);
+                const situacao = document.getElementById("cad-situacao").value;
+
+                if (!grupo || !numeroCota || !valorCredito || !valorParcela || !prazoTotal || !parcelaAtual) {
+                    mostrarToast("Preencha todos os campos obrigatórios.", "error");
+                    return;
+                }
+
+                const tipoNomeMap = {
+                    imovel: "🏠 Imóvel",
+                    automovel: "🚗 Automóvel",
+                    motocicleta: "🏍️ Motocicleta",
+                    aeronaves: "✈️ Aeronaves",
+                    outros: "📦 Outros"
+                };
+
+                const cota = {
+                    grupo,
+                    numeroCota,
+                    valorCredito,
+                    valorParcela,
+                    saldoDevedor,
+                    ultimoLance,
+                    tipo,
+                    tipoNome: tipoNomeMap[tipo] || "📦 Outros",
+                    prazoTotal,
+                    parcelaAtual,
+                    situacao
+                };
+
+                try {
+                    const cadastradasJSON = localStorage.getItem("cotasCadastro");
+                    const cadastradas = cadastradasJSON ? JSON.parse(cadastradasJSON) : {};
+                    cadastradas[numeroCota] = cota;
+                    localStorage.setItem("cotasCadastro", JSON.stringify(cadastradas));
+                    mostrarToast("Cota cadastrada com sucesso!", "success");
+                    toggleCadastroCota();
+                } catch (e) {
+                    mostrarToast("Erro ao salvar a cota.", "error");
+                }
+            }
+
             function abrirChat() {
                 mostrarToast(
                     "Funcionalidade de chat será implementada em breve!",
@@ -11555,42 +11786,196 @@ CUSTOM_LOGIN_CREDENTIALS_END
             }
 
             // Função para salvar os dados do consorciado atual no localStorage
-            function salvarDadosConsorciado() {
+            async function salvarDadosConsorciado() {
                 if (!consorciadoAtual) return;
-
-                // Obter a lista atual de consorciados do localStorage
-                let consorciados = [];
-                const consorciadosJSON = localStorage.getItem("consorciados");
-                if (consorciadosJSON) {
-                    consorciados = JSON.parse(consorciadosJSON);
+                const payload = mapConsorciadoAtualToPayload();
+                const r = await apiSaveConsorciado(payload);
+                if (!r || !r.success) {
+                    mostrarToast("Falha ao salvar", "error");
+                    return;
                 }
-
-                // Verificar se o consorciado já existe na lista (usando nome em vez de CPF)
-                const index = consorciados.findIndex(
-                    (c) =>
-                        c.nome.toLowerCase() ===
-                        consorciadoAtual.nome.toLowerCase(),
-                );
-
-                if (index !== -1) {
-                    // Atualizar o consorciado existente
-                    consorciados[index] = consorciadoAtual;
-                } else {
-                    // Adicionar o novo consorciado
-                    consorciados.push(consorciadoAtual);
-                }
-
-                // Salvar a lista atualizada no localStorage
-                localStorage.setItem(
-                    "consorciados",
-                    JSON.stringify(consorciados),
-                );
-                console.log(
-                    "💾 Dados do consorciado salvos:",
-                    consorciadoAtual.nome,
-                );
+                mostrarToast("Dados salvos", "success");
             }
 
+            const CONSORCIADOS_PRE = [
+                {
+                    nome: "João Silva",
+                    cpfCnpj: "123.456.789-01",
+                    chaveUnica: "12345678901",
+                    dataNascimento: "1980-05-15",
+                    telefone: "(11) 99999-1234",
+                    email: "joao.silva@email.com",
+                    statusGeral: "ativo",
+                    endereco: "Rua das Flores, 123",
+                    cidadeUf: "São Paulo/SP",
+                    cep: "01234-567",
+                    cotas: [
+                        {
+                            id: Date.now() + 1,
+                            grupo: "707",
+                            numeroCota: "4014",
+                            tipo: "IMOVEL",
+                            valorCredito: 400000.0,
+                            valorParcela: 2560.0,
+                            parcelaAtual: 1,
+                            prazoTotal: 200,
+                            situacao: "ativo",
+                        },
+                    ],
+                    historico: [
+                        {
+                            id: Date.now() + 2,
+                            data: "2025-01-15",
+                            grupoCota: "707/4014",
+                            tipo: "pagamento",
+                            valor: "R$ 2.560,00",
+                            status: "pago",
+                        },
+                    ],
+                    dataCadastro: new Date().toISOString(),
+                },
+                {
+                    nome: "Maria Santos",
+                    cpfCnpj: "98.765.432-10",
+                    chaveUnica: "98765432110",
+                    dataNascimento: "1975-08-20",
+                    telefone: "(21) 98888-5678",
+                    email: "maria.santos@email.com",
+                    statusGeral: "ativo",
+                    endereco: "Av. Central, 456",
+                    cidadeUf: "Rio de Janeiro/RJ",
+                    cep: "20000-123",
+                    cotas: [
+                        {
+                            id: Date.now() + 3,
+                            grupo: "808",
+                            numeroCota: "2345",
+                            tipo: "AUTOMOVEL",
+                            valorCredito: 80000.0,
+                            valorParcela: 650.0,
+                            parcelaAtual: 10,
+                            prazoTotal: 120,
+                            situacao: "ativo",
+                        },
+                    ],
+                    historico: [
+                        {
+                            id: Date.now() + 4,
+                            data: "2025-01-10",
+                            grupoCota: "808/2345",
+                            tipo: "pagamento",
+                            valor: "R$ 650,00",
+                            status: "pago",
+                        },
+                    ],
+                    dataCadastro: new Date().toISOString(),
+                },
+            ];
+
+            function storeLoadAll() {
+                try {
+                    const raw = localStorage.getItem("consorciados") || "[]";
+                    const list = JSON.parse(raw);
+                    return Array.isArray(list) ? list : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+            function storeSaveAll(list) {
+                try {
+                    localStorage.setItem("consorciados", JSON.stringify(list));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            async function apiSaveConsorciado(payload) {
+                const list = storeLoadAll();
+                const chave = (payload.chaveUnica || (payload.cpfCnpj || "").replace(/\D/g, "")).trim();
+                if (!chave) return { success: false, error: "chave_invalida" };
+                const idx = list.findIndex(
+                    (c) =>
+                        (String(c.chaveUnica || "").trim() === chave) ||
+                        (String(c.cpfCnpj || "").replace(/\D/g, "").trim() === chave),
+                );
+                if (idx >= 0) {
+                    list[idx] = payload;
+                } else {
+                    list.push(payload);
+                }
+                const ok = storeSaveAll(list);
+                if (!ok) return { success: false };
+                return { success: true, data: payload };
+            }
+            async function apiSearchByChave(chave) {
+                const list = [...CONSORCIADOS_PRE, ...storeLoadAll()];
+                const key = String(chave || "").replace(/\D/g, "").trim();
+                const found = list.find(
+                    (c) =>
+                        String(c.chaveUnica || "").trim() === key ||
+                        String(c.cpfCnpj || "").replace(/\D/g, "").trim() === key,
+                );
+                if (!found) return { success: false };
+                return { success: true, data: found };
+            }
+            async function apiSearchByNome(nome) {
+                const list = [...CONSORCIADOS_PRE, ...storeLoadAll()];
+                const term = String(nome || "").toLowerCase().trim();
+                const matches = list.filter((c) =>
+                    String(c.nome || "").toLowerCase().includes(term),
+                );
+                return { success: matches.length > 0, data: matches };
+            }
+            async function apiListConsorciados() {
+                const list = [...CONSORCIADOS_PRE, ...storeLoadAll()];
+                return { success: true, data: list };
+            }
+            async function apiDeleteConsorciado(chave) {
+                const list = storeLoadAll();
+                const key = String(chave || "").replace(/\D/g, "").trim();
+                const next = list.filter(
+                    (c) => String(c.chaveUnica || "").trim() !== key,
+                );
+                const ok = storeSaveAll(next);
+                return { success: ok };
+            }
+            function mapConsorciadoAtualToPayload() {
+                if (!consorciadoAtual) return null;
+                const chaveUnica = (consorciadoAtual.cpf || '').replace(/\D/g, '');
+                return {
+                    nome: consorciadoAtual.nome || '',
+                    cpfCnpj: consorciadoAtual.cpf || '',
+                    chaveUnica,
+                    dataNascimento: consorciadoAtual.nascimento ? new Date(consorciadoAtual.nascimento).toISOString().slice(0, 10) : '',
+                    telefone: consorciadoAtual.telefone || '',
+                    email: consorciadoAtual.email || '',
+                    statusGeral: consorciadoAtual.status || 'Ativo',
+                    endereco: consorciadoAtual.endereco || '',
+                    cidadeUf: consorciadoAtual.cidade || '',
+                    cep: consorciadoAtual.cep || '',
+                    cotas: (consorciadoAtual.cotas || []).map((c) => ({
+                        id: c.id || Date.now() + Math.random(),
+                        grupo: String(c.grupo || ''),
+                        numeroCota: String(c.numeroCota || ''),
+                        tipo: (c.tipo || '').toString().toUpperCase(),
+                        valorCredito: Number(c.valorCredito || 0),
+                        valorParcela: Number(c.valorParcela || 0),
+                        parcelaAtual: Number(c.parcelaAtual || 0),
+                        prazoTotal: Number(c.prazoTotal || 0),
+                        situacao: c.situacao || 'ativo',
+                    })),
+                    historico: (consorciadoAtual.historico || []).map((h) => ({
+                        id: h.id || Date.now() + Math.random(),
+                        data: h.data ? new Date(h.data).toISOString().slice(0, 10) : '',
+                        grupoCota: h.grupoCota || '',
+                        tipo: h.tipo || '',
+                        valor: h.valor || '',
+                        status: h.status || '',
+                        descricao: h.descricao || '',
+                    })),
+                    dataCadastro: new Date().toISOString(),
+                };
+            }
             // CUSTOM FUNCTIONS - Sistema de Cadastro e Histórico de Consorciados
 
             // Variáveis globais para o sistema customizado
@@ -11785,21 +12170,11 @@ CUSTOM_LOGIN_CREDENTIALS_END
                 custom_fecharModalCadastroConsorciado();
             }
 
-            // Função para salvar consorciado no localStorage
-            function custom_salvarConsorciadoNoLocalStorage(consorciado) {
-                const chave = `custom_consorciado_${consorciado.chaveUnica}`;
-                localStorage.setItem(chave, JSON.stringify(consorciado));
-
-                // Manter lista de chaves para facilitar a consulta
-                let listaChaves = JSON.parse(
-                    localStorage.getItem("custom_consorciados_chaves") || "[]",
-                );
-                if (!listaChaves.includes(consorciado.chaveUnica)) {
-                    listaChaves.push(consorciado.chaveUnica);
-                    localStorage.setItem(
-                        "custom_consorciados_chaves",
-                        JSON.stringify(listaChaves),
-                    );
+            // Função para salvar consorciado no banco de dados
+            async function custom_salvarConsorciadoNoLocalStorage(consorciado) {
+                const r = await apiSaveConsorciado(consorciado);
+                if (!r || !r.success) {
+                    mostrarToast("Falha ao salvar no servidor", "error");
                 }
             }
 
@@ -11819,31 +12194,20 @@ CUSTOM_LOGIN_CREDENTIALS_END
             }
 
             // Função para carregar lista de consorciados
-            function custom_carregarListaConsorciados() {
-                const listaChaves = JSON.parse(
-                    localStorage.getItem("custom_consorciados_chaves") || "[]",
-                );
+            async function custom_carregarListaConsorciados() {
                 const container = document.getElementById(
                     "custom_lista_consorciados",
                 );
                 container.innerHTML = "";
-
-                if (listaChaves.length === 0) {
+                const r = await apiListConsorciados();
+                if (!r.success || !Array.isArray(r.data) || r.data.length === 0) {
                     container.innerHTML =
                         '<p class="text-gray-500 text-center py-8">Nenhum consorciado cadastrado ainda.</p>';
                     return;
                 }
-
-                listaChaves.forEach((chave) => {
-                    const consorciadoData = localStorage.getItem(
-                        `custom_consorciado_${chave}`,
-                    );
-                    if (consorciadoData) {
-                        const consorciado = JSON.parse(consorciadoData);
-                        const itemDiv =
-                            custom_criarItemListaConsorciado(consorciado);
-                        container.appendChild(itemDiv);
-                    }
+                r.data.forEach((consorciado) => {
+                    const itemDiv = custom_criarItemListaConsorciado(consorciado);
+                    container.appendChild(itemDiv);
                 });
             }
 
@@ -11907,14 +12271,11 @@ CUSTOM_LOGIN_CREDENTIALS_END
             }
 
             // Função para visualizar consorciado
-            function custom_visualizarConsorciado(chaveUnica) {
-                const consorciadoData = localStorage.getItem(
-                    `custom_consorciado_${chaveUnica}`,
-                );
-                if (consorciadoData) {
-                    const consorciado = JSON.parse(consorciadoData);
-
-                    let detalhes = `
+            async function custom_visualizarConsorciado(chaveUnica) {
+                const r = await apiSearchByChave(chaveUnica);
+                if (!r.success) return;
+                const consorciado = r.data;
+                let detalhes = `
 DADOS PESSOAIS:
 Nome: ${consorciado.nome}
 CPF/CNPJ: ${consorciado.cpfCnpj}
@@ -11928,34 +12289,27 @@ ${consorciado.endereco || "Não informado"}
 ${consorciado.cidadeUf || "Não informado"}
 CEP: ${consorciado.cep || "Não informado"}
 
-COTAS (${consorciado.cotas.length}):
+COTAS (${(consorciado.cotas || []).length}):
 `;
-
-                    consorciado.cotas.forEach((cota) => {
-                        detalhes += `• Grupo ${cota.grupo} - Cota ${cota.numeroCota} (${cota.tipo}) - R$ ${cota.valorCredito.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} - Parcela ${cota.parcelaAtual}/${cota.prazoTotal}\n`;
-                    });
-
-                    detalhes += `\nHISTÓRICO FINANCEIRO (${consorciado.historico.length}):`;
-                    consorciado.historico.forEach((hist) => {
-                        detalhes += `\n• ${hist.data} - ${hist.grupoCota} - ${hist.tipo} - ${hist.valor} - ${hist.status}`;
-                    });
-
-                    alert(detalhes);
-                }
+                (consorciado.cotas || []).forEach((cota) => {
+                    detalhes += `• Grupo ${cota.grupo} - Cota ${cota.numeroCota} (${cota.tipo}) - R$ ${Number(cota.valorCredito).toLocaleString("pt-BR", { minimumFractionDigits: 2 })} - Parcela ${cota.parcelaAtual}/${cota.prazoTotal}\n`;
+                });
+                detalhes += `\nHISTÓRICO FINANCEIRO (${(consorciado.historico || []).length}):`;
+                (consorciado.historico || []).forEach((hist) => {
+                    detalhes += `\n• ${hist.data} - ${hist.grupoCota} - ${hist.tipo} - ${hist.valor} - ${hist.status}`;
+                });
+                alert(detalhes);
             }
 
             // Função para editar consorciado
-            function custom_editarConsorciado(chaveUnica) {
-                const consorciadoData = localStorage.getItem(
-                    `custom_consorciado_${chaveUnica}`,
-                );
-                if (consorciadoData) {
-                    custom_consorciadoEdicao = JSON.parse(consorciadoData);
-                    custom_preencherFormularioEdicao(custom_consorciadoEdicao);
-                    document
-                        .getElementById("custom_modal_edicao_consorciado")
-                        .classList.remove("hidden");
-                }
+            async function custom_editarConsorciado(chaveUnica) {
+                const r = await apiSearchByChave(chaveUnica);
+                if (!r.success) return;
+                custom_consorciadoEdicao = r.data;
+                custom_preencherFormularioEdicao(custom_consorciadoEdicao);
+                document
+                    .getElementById("custom_modal_edicao_consorciado")
+                    .classList.remove("hidden");
             }
 
             // Função para preencher formulário de edição
@@ -12029,7 +12383,7 @@ COTAS (${consorciado.cotas.length}):
                 });
 
             // Função para salvar edição do consorciado
-            function custom_salvarEdicaoConsorciado() {
+            async function custom_salvarEdicaoConsorciado() {
                 if (!custom_consorciadoEdicao) return;
 
                 // Atualizar dados do consorciado
@@ -12059,10 +12413,11 @@ COTAS (${consorciado.cotas.length}):
                 custom_consorciadoEdicao.dataUltimaEdicao =
                     new Date().toISOString();
 
-                // Salvar no localStorage
-                custom_salvarConsorciadoNoLocalStorage(
-                    custom_consorciadoEdicao,
-                );
+                const r = await apiSaveConsorciado(custom_consorciadoEdicao);
+                if (!r || !r.success) {
+                    mostrarToast("Falha ao salvar no servidor", "error");
+                    return;
+                }
 
                 mostrarToast("Consorciado atualizado com sucesso!", "success");
                 custom_fecharModalEdicaoConsorciado();
@@ -12070,51 +12425,22 @@ COTAS (${consorciado.cotas.length}):
             }
 
             // Função para excluir consorciado
-            function custom_excluirConsorciado(chaveUnica) {
-                const consorciadoData = localStorage.getItem(
-                    `custom_consorciado_${chaveUnica}`,
-                );
-                if (consorciadoData) {
-                    const consorciado = JSON.parse(consorciadoData);
-
-                    if (
-                        confirm(
-                            `Tem certeza que deseja excluir o consorciado "${consorciado.nome}"?\n\nEsta ação não pode ser desfeita.`,
-                        )
-                    ) {
-                        // Remover do localStorage
-                        localStorage.removeItem(
-                            `custom_consorciado_${chaveUnica}`,
-                        );
-
-                        // Atualizar lista de chaves
-                        let listaChaves = JSON.parse(
-                            localStorage.getItem(
-                                "custom_consorciados_chaves",
-                            ) || "[]",
-                        );
-                        listaChaves = listaChaves.filter(
-                            (chave) => chave !== chaveUnica,
-                        );
-                        localStorage.setItem(
-                            "custom_consorciados_chaves",
-                            JSON.stringify(listaChaves),
-                        );
-
-                        mostrarToast(
-                            "Consorciado excluído com sucesso!",
-                            "success",
-                        );
-                        custom_carregarListaConsorciados(); // Atualizar lista
-                    }
+            async function custom_excluirConsorciado(chaveUnica) {
+                if (!confirm("Tem certeza que deseja excluir este consorciado?")) return;
+                const r = await apiDeleteConsorciado(chaveUnica);
+                if (!r.success) {
+                    mostrarToast("Falha ao excluir no servidor", "error");
+                    return;
                 }
+                mostrarToast("Consorciado excluído com sucesso!", "success");
+                custom_carregarListaConsorciados();
             }
 
             // MODIFICAÇÃO NA FUNÇÃO DE PESQUISA EXISTENTE
             // Interceptar a função de pesquisa para verificar consorciados cadastrados
             const original_pesquisarConsorciado = pesquisarConsorciado;
 
-            pesquisarConsorciado = function () {
+            pesquisarConsorciado = async function () {
                 const termoPesquisa = document
                     .getElementById("pesquisa-consorciado")
                     .value.trim();
@@ -12137,23 +12463,11 @@ COTAS (${consorciado.cotas.length}):
                         apenasNumeros,
                     );
 
-                    const consorciadoData = localStorage.getItem(
-                        `custom_consorciado_${apenasNumeros}`,
-                    );
-
-                    if (consorciadoData) {
-                        // Consorciado encontrado no localStorage customizado
-                        console.log(
-                            "✅ Consorciado encontrado no sistema customizado",
-                        );
-                        const consorciado = JSON.parse(consorciadoData);
-                        custom_exibirConsorciadoCadastrado(consorciado);
-                        return;
-                    } else {
-                        console.log(
-                            "❌ CPF/CNPJ não encontrado no sistema customizado, gerando dados aleatórios",
-                        );
-                    }
+                const respCPF = await apiSearchByChave(apenasNumeros);
+                if (respCPF && respCPF.success) {
+                    custom_exibirConsorciadoCadastrado(respCPF.data);
+                    return;
+                }
                 }
 
                 // Verificar se é pesquisa por nome e se existe consorciado cadastrado com esse nome
@@ -12161,32 +12475,18 @@ COTAS (${consorciado.cotas.length}):
                     console.log("📝 Identificado como nome:", termoPesquisa);
 
                     // Buscar por nome nos consorciados cadastrados
-                    const listaChaves = JSON.parse(
-                        localStorage.getItem("custom_consorciados_chaves") ||
-                            "[]",
-                    );
-
-                    for (const chave of listaChaves) {
-                        const consorciadoData = localStorage.getItem(
-                            `custom_consorciado_${chave}`,
-                        );
-                        if (consorciadoData) {
-                            const consorciado = JSON.parse(consorciadoData);
-                            if (
-                                consorciado.nome.toLowerCase() ===
-                                termoPesquisa.toLowerCase()
-                            ) {
-                                console.log(
-                                    "✅ Consorciado encontrado por nome no sistema customizado",
-                                );
-                                custom_exibirConsorciadoCadastrado(consorciado);
-                                return;
-                            }
+                    const respNome = await apiSearchByNome(termoPesquisa);
+                    if (respNome && respNome.success) {
+                        const lista = Array.isArray(respNome.data) ? respNome.data : [respNome.data];
+                        if (lista.length === 1) {
+                            custom_exibirConsorciadoCadastrado(lista[0]);
+                            return;
+                        }
+                        if (lista.length > 1) {
+                            custom_exibirSelecaoConsorciados(lista);
+                            return;
                         }
                     }
-                    console.log(
-                        "❌ Nome não encontrado no sistema customizado, gerando dados aleatórios",
-                    );
                 }
 
                 // Se não encontrou cadastro customizado, usar função original
@@ -12194,6 +12494,24 @@ COTAS (${consorciado.cotas.length}):
                 original_pesquisarConsorciado();
             };
 
+            function custom_exibirSelecaoConsorciados(lista) {
+                document
+                    .getElementById("custom_modal_historico_consorciados")
+                    .classList.remove("hidden");
+                const container = document.getElementById(
+                    "custom_lista_consorciados",
+                );
+                container.innerHTML = "";
+                lista.forEach((consorciado) => {
+                    const itemDiv =
+                        custom_criarItemListaConsorciado(consorciado);
+                    container.appendChild(itemDiv);
+                });
+                mostrarToast(
+                    `${lista.length} consorciados encontrados. Selecione um.`,
+                    "info",
+                );
+            }
             // Função para exibir consorciado cadastrado
             function custom_exibirConsorciadoCadastrado(consorciado) {
                 console.log(
@@ -12238,7 +12556,7 @@ COTAS (${consorciado.cotas.length}):
                     cpf: consorciado.cpfCnpj,
                     nascimento: consorciado.dataNascimento
                         ? new Date(consorciado.dataNascimento)
-                        : null,
+                        : new Date(),
                     telefone: consorciado.telefone || "",
                     email: consorciado.email || "",
                     endereco: consorciado.endereco || "",
@@ -12914,9 +13232,9 @@ COTAS (${consorciado.cotas.length}):
 
                     // VALIDAÇÃO SIMPLES E DIRETA
                     if (
-                        (username === "joao" && password === "12345") ||
-                        (username === "lucas" && password === "magro") ||
-                        (username === "julia" && password === "tigrinho") ||
+                        (username === "joaoc@gruposg.com.br" && password === "passofundo") ||
+                        (username === "lucas@gruposg.com.br" && password === "magro") ||
+                        (username === "leandro" && password === "lele") ||
                         (username === "raphael" && password === "chefe")
                     ) {
                         console.log(
